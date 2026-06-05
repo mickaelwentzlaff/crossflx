@@ -1,0 +1,4167 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="CrossFLX">
+<meta name="theme-color" content="#CD1719">
+<title>CrossFLX</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+<style>
+:root {
+  --rouge: #CD1719;
+  --rouge-fonce: #A8121A;
+  --noir: #0F0F12;
+  --gris-fonce: #2C2C30;
+  --gris-moy: #6E6E73;
+  --gris-clair: #C7C7CC;
+  --vert: #0E8F5E;
+  --bleu: #1D4ED8;
+  --orange: #D97706;
+  --rouge-alert: #B91C1C;
+
+  --radius: 22px;
+  --radius-sm: 14px;
+  --radius-pill: 999px;
+
+  --color-background-primary: #FFFFFF;
+  --color-background-secondary: #F5F5F7;
+  --color-background-success: #EAF8F2;
+  --color-background-danger: #FDECEC;
+  --color-background-warning: #FFF5D8;
+  --color-text-primary: #111114;
+  --color-text-secondary: #6E6E73;
+  --color-text-tertiary: #A0A0A8;
+  --color-text-success: #0E8F5E;
+  --color-text-danger: #CD1719;
+  --color-border-tertiary: #E1E1E6;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
+
+html, body {
+  font-family: -apple-system, "SF Pro Text", "SF Pro Display", "Helvetica Neue", system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.45;
+  color: var(--noir);
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ============================================================
+   FOND — image vibrante nécessaire pour que le glass se voie
+   On utilise des formes colorées géométriques + bruit
+   ============================================================ */
+body {
+  background: #F2F2F5;
+  position: relative;
+}
+
+/* ============================================================
+   GLASS MATERIAL — vrai liquid glass Apple
+   Clé: blur élevé, saturation poussée, transparence faible mais
+   pas trop pour rester lisible
+   ============================================================ */
+.glass {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: var(--radius);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.2),
+    0 1px 1px rgba(0, 0, 0, 0.04),
+    0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+/* ============================================================
+   HEADER — barre glass épurée
+   ============================================================ */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: env(safe-area-inset-top) 0 0 0;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.header-inner {
+  max-width: 760px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  gap: 14px;
+}
+
+.brand {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--noir);
+}
+
+.alert-bar {
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  color: var(--vert);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.alert-bar::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--vert);
+}
+
+.alert-bar.alert { color: var(--orange); }
+.alert-bar.alert::before { background: var(--orange); }
+
+/* ============================================================
+   TABS — liquid glass capsule
+   ============================================================ */
+nav.tabs {
+  position: sticky;
+  top: 0;
+  z-index: 99;
+  padding: 8px 12px;
+  background: transparent;
+}
+
+.tabs-inner {
+  display: flex;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 4px;
+  gap: 2px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: var(--radius-pill);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+.tabs-inner::-webkit-scrollbar { display: none; }
+
+nav.tabs button {
+  flex: 0 0 auto;
+  min-width: 92px;
+  padding: 10px 12px;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gris-fonce);
+  cursor: pointer;
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  letter-spacing: -0.01em;
+}
+
+nav.tabs button.active {
+  color: white;
+  background: var(--rouge);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    0 2px 8px rgba(205, 23, 25, 0.35);
+}
+
+/* ============================================================
+   MAIN
+   ============================================================ */
+main {
+  position: relative;
+  z-index: 1;
+  padding: 18px 16px;
+  padding-bottom: calc(40px + env(safe-area-inset-bottom));
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ============================================================
+   FORMS
+   ============================================================ */
+.form-card {
+  padding: 18px;
+  margin-bottom: 18px;
+}
+
+.form-group { margin-bottom: 14px; }
+.form-group:last-child { margin-bottom: 0; }
+
+.form-group label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gris-moy);
+  margin-bottom: 8px;
+}
+
+select, input[type=text], input[type=number] {
+  width: 100%;
+  padding: 14px 16px;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--noir);
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: var(--radius-sm);
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%23CD1719' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  background-size: 12px;
+  padding-right: 44px;
+  min-height: 50px;
+  transition: all 0.18s ease;
+  letter-spacing: -0.01em;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+select:focus, input:focus {
+  outline: none;
+  border-color: var(--rouge);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 0 0 3px rgba(205, 23, 25, 0.15);
+}
+
+.form-meta {
+  font-size: 12px;
+  color: var(--gris-moy);
+  margin-top: 8px;
+  font-style: italic;
+}
+
+/* ============================================================
+   SECTIONS
+   ============================================================ */
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gris-fonce);
+  margin: 24px 0 12px;
+  padding: 0 4px;
+}
+
+.section-title .num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  background: var(--noir);
+  color: white;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* ============================================================
+   KPI BIG
+   ============================================================ */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.kpi {
+  position: relative;
+  padding: 18px 14px;
+  text-align: center;
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 1px 1px rgba(0, 0, 0, 0.04),
+    0 8px 24px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+.kpi.primary {
+  background: rgba(205, 23, 25, 0.85);
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    0 8px 24px rgba(205, 23, 25, 0.25);
+}
+
+.kpi .kpi-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--gris-moy);
+  margin-bottom: 8px;
+}
+
+.kpi.primary .kpi-label { color: rgba(255, 255, 255, 0.85); }
+
+.kpi .kpi-value {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--noir);
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  font-variant-numeric: tabular-nums;
+}
+
+.kpi.primary .kpi-value { color: white; }
+
+.kpi .kpi-sub {
+  font-size: 11px;
+  color: var(--gris-moy);
+  margin-top: 6px;
+  font-weight: 500;
+}
+
+.kpi.primary .kpi-sub { color: rgba(255, 255, 255, 0.8); }
+
+.kpi-detail {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.detail-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.detail-label {
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.detail-val {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.kpi-grid-single {
+  grid-template-columns: 1fr;
+  margin-top: 12px;
+}
+
+.prix-comptant-card {
+  margin-top: 12px;
+  padding: 14px 18px;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: var(--radius-sm);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.prix-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.prix-line:last-child { border-bottom: none; }
+
+.prix-label {
+  font-size: 12px;
+  color: var(--gris-fonce);
+  font-weight: 500;
+}
+
+.prix-val {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--noir);
+  font-variant-numeric: tabular-nums;
+}
+
+.prix-val.highlight {
+  color: var(--vert);
+}
+
+/* ============================================================
+   AIDES
+   ============================================================ */
+.aides {
+  margin-top: 4px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.aides-header {
+  background: rgba(14, 143, 94, 0.85);
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  color: white;
+  padding: 14px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.aides-header.empty { background: rgba(110, 110, 115, 0.8); }
+
+.aides-header .total {
+  background: rgba(255, 255, 255, 0.25);
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.aide-row {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1.1fr 1fr;
+  gap: 8px;
+  padding: 13px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+  align-items: center;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.aide-row:last-child { border-bottom: none; }
+
+.aide-row.aide-total {
+  background: rgba(14, 143, 94, 0.12);
+  border-top: 1px solid rgba(14, 143, 94, 0.25);
+}
+
+.aide-row.aide-total .label {
+  font-weight: 700;
+  color: var(--vert);
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+
+.aide-row.aide-total .montant {
+  font-size: 19px;
+  color: var(--vert);
+}
+
+.aide-row.aide-total .mois strong {
+  color: var(--vert);
+  font-weight: 700;
+}
+
+.aide-row .label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--noir);
+}
+
+.aide-row .montant {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--vert);
+  font-variant-numeric: tabular-nums;
+}
+
+.aide-row .mois {
+  font-size: 12px;
+  color: var(--gris-fonce);
+  text-align: center;
+  font-weight: 500;
+}
+
+.aide-row .validite {
+  font-size: 11px;
+  color: var(--gris-moy);
+  text-align: right;
+  font-weight: 500;
+}
+
+.aide-row .validite.alert { color: var(--orange); font-weight: 700; }
+.aide-row .validite.expired { color: var(--rouge-alert); font-weight: 700; }
+.aide-row .empty { color: var(--gris-clair); font-weight: 400; }
+
+.aides-empty-msg {
+  padding: 20px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--gris-moy);
+  font-style: italic;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+/* ============================================================
+   ARGUMENTS ASSURANCE
+   ============================================================ */
+.kpi-mini-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.kpi-mini {
+  padding: 14px 12px;
+  text-align: center;
+  border-radius: var(--radius-sm);
+  background: rgba(29, 78, 216, 0.12);
+  backdrop-filter: blur(30px) saturate(200%);
+  -webkit-backdrop-filter: blur(30px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.kpi-mini .label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--bleu);
+  margin-bottom: 4px;
+  letter-spacing: 0.06em;
+}
+
+.kpi-mini .value {
+  font-size: 19px;
+  font-weight: 800;
+  color: var(--bleu);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+.piece-ref {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(30px) saturate(200%);
+  -webkit-backdrop-filter: blur(30px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  font-size: 14px;
+  color: var(--noir);
+  margin-bottom: 12px;
+  font-weight: 500;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.piece-ref strong {
+  display: block;
+  font-size: 10px;
+  text-transform: uppercase;
+  color: var(--gris-moy);
+  margin-bottom: 3px;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+}
+
+.rentabilite {
+  background: rgba(29, 78, 216, 0.85);
+  backdrop-filter: blur(30px) saturate(200%);
+  -webkit-backdrop-filter: blur(30px) saturate(200%);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius-sm);
+  padding: 14px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 12px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.args-grid { display: grid; gap: 10px; }
+
+.arg {
+  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(30px) saturate(200%);
+  -webkit-backdrop-filter: blur(30px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.arg .arg-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gris-moy);
+  margin-bottom: 5px;
+}
+
+.arg .arg-text {
+  font-size: 14px;
+  color: var(--noir);
+  font-style: italic;
+  line-height: 1.55;
+  font-weight: 500;
+}
+
+/* ============================================================
+   FICHE LINK
+   ============================================================ */
+.fiche-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(15, 15, 18, 0.85);
+  backdrop-filter: blur(30px) saturate(200%);
+  -webkit-backdrop-filter: blur(30px) saturate(200%);
+  color: white;
+  padding: 16px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  margin-top: 14px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.fiche-link:active { transform: scale(0.98); }
+
+/* ============================================================
+   PITCH FLASH
+   ============================================================ */
+.pitch-section {
+  margin-bottom: 12px;
+  padding: 0;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 1px 1px rgba(0, 0, 0, 0.04),
+    0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.pitch-header {
+  padding: 14px 18px 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+  color: white;
+}
+
+.pitch-section.rouge .step-num { background: var(--rouge); }
+.pitch-section.bleu .step-num { background: var(--bleu); }
+.pitch-section.vert .step-num { background: var(--vert); }
+.pitch-section.noir .step-num { background: var(--noir); }
+
+.pitch-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gris-moy);
+}
+
+.pitch-content {
+  padding: 4px 18px 18px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--noir);
+  font-weight: 500;
+}
+
+/* ============================================================
+   COMPARATEUR
+   ============================================================ */
+.comp-selectors {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.comp-selectors > div {
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(30px) saturate(200%);
+  -webkit-backdrop-filter: blur(30px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.comp-col-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--gris-moy);
+  text-align: center;
+  margin-bottom: 6px;
+  letter-spacing: 0.08em;
+}
+
+.comp-selectors select {
+  font-size: 13px;
+  padding: 10px 12px;
+  padding-right: 30px;
+  background-position: right 10px center;
+  min-height: auto;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.comp-selectors select:last-child { margin-bottom: 0; }
+
+.comp-table {
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.comp-section-title {
+  padding: 10px 14px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: white;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+.comp-section-title.noir { background: rgba(15, 15, 18, 0.85); }
+.comp-section-title.rouge { background: rgba(205, 23, 25, 0.85); }
+.comp-section-title.bleu { background: rgba(29, 78, 216, 0.85); }
+.comp-section-title.vert { background: rgba(14, 143, 94, 0.85); }
+
+.comp-row {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr 1fr;
+  gap: 4px;
+  padding: 11px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+  font-size: 12px;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.comp-row:last-child { border-bottom: none; }
+
+.comp-row .lbl {
+  font-weight: 600;
+  color: var(--gris-fonce);
+  font-size: 11px;
+}
+
+.comp-row .val {
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  font-size: 13px;
+  color: var(--noir);
+  font-weight: 500;
+}
+
+.comp-row.highlight { background: rgba(205, 23, 25, 0.1); }
+.comp-row.highlight .val { font-weight: 800; color: var(--rouge); font-size: 14px; }
+
+.comp-row.bleu-bg { background: rgba(29, 78, 216, 0.08); }
+.comp-row.bleu-bg .val { color: var(--bleu); font-weight: 700; }
+
+.comp-row.vert-bg { background: rgba(14, 143, 94, 0.08); }
+.comp-row.vert-bg .val { color: var(--vert); font-weight: 700; }
+
+/* ============================================================
+   TOP VENTES
+   ============================================================ */
+.subsection-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gris-fonce);
+  margin: 22px 0 12px;
+  padding: 0 4px;
+}
+
+.top-card {
+  padding: 14px 16px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(30px) saturate(200%);
+  -webkit-backdrop-filter: blur(30px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: var(--radius-sm);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.top-card .rank {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  background: var(--noir);
+  color: white;
+}
+
+.top-card.rank-1 .rank { background: #F59E0B; color: #5C3A00; }
+.top-card.rank-2 .rank { background: #A8A8AD; color: #2C2C30; }
+.top-card.rank-3 .rank { background: #92400E; color: white; }
+
+.top-card .top-info { flex: 1; min-width: 0; }
+
+.top-card .top-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--noir);
+  margin-bottom: 4px;
+  letter-spacing: -0.01em;
+}
+
+.top-card .top-stats {
+  font-size: 11px;
+  color: var(--gris-moy);
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+}
+
+.top-card .pct {
+  flex-shrink: 0;
+  background: rgba(14, 143, 94, 0.15);
+  color: var(--vert);
+  padding: 6px 11px;
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  border: 1px solid rgba(14, 143, 94, 0.25);
+}
+
+.bonus-card {
+  padding: 13px 16px;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(14, 143, 94, 0.1);
+  backdrop-filter: blur(30px) saturate(200%);
+  -webkit-backdrop-filter: blur(30px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-left: 3px solid var(--vert);
+  border-radius: var(--radius-sm);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.bonus-card .name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--noir);
+  flex: 1;
+  margin-right: 10px;
+}
+.bonus-card .montant {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--vert);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================================================
+   AIDE VENTE
+   ============================================================ */
+#tab-aide {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+#tab-aide .section-title {
+  margin: 18px 0 9px;
+  color: var(--color-text-secondary);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+#tab-aide .section-title .num {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+  background: var(--color-text-primary);
+  color: #FFFFFF;
+  font-size: 12px;
+}
+
+#tab-aide .aide-budget-card,
+#tab-aide .recommend-card,
+#tab-aide .recommend-empty {
+  border: 1px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-lg);
+  background: var(--color-background-primary);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+}
+
+#tab-aide .aide-budget-card {
+  overflow: hidden;
+  padding: 0;
+  margin: 0 0 18px;
+}
+
+#tab-aide .aide-card-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 12px 14px;
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+  background: var(--color-background-secondary);
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+#tab-aide .aide-card-head strong {
+  color: var(--color-text-primary);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+#tab-aide .aide-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  padding: 14px;
+}
+
+#tab-aide .aide-forfait-field {
+  grid-column: 1 / -1;
+}
+
+#tab-aide .form-group {
+  margin: 0;
+}
+
+#tab-aide .form-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 6px;
+  color: var(--color-text-secondary);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+#tab-aide select,
+#tab-aide input[type=number] {
+  min-height: 46px;
+  padding: 11px 38px 11px 12px;
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--color-border-tertiary);
+  background-color: var(--color-background-secondary);
+  box-shadow: none;
+  font-size: 14px;
+  font-weight: 650;
+}
+
+#tab-aide input[type=number] {
+  background-image: none;
+  padding-right: 12px;
+}
+
+#tab-aide .recommend-summary {
+  margin: 0 0 10px;
+  padding: 12px 14px;
+  border: 1px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-lg);
+  background: var(--color-background-secondary);
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+#tab-aide .recommend-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#tab-aide .recommend-card {
+  overflow: hidden;
+  border-left: 0;
+}
+
+#tab-aide .recommend-card.ok {
+  border-color: #BFEAD8;
+}
+
+#tab-aide .recommend-card.close {
+  border-color: #FAD7AA;
+}
+
+#tab-aide .recommend-card.stretch {
+  border-color: #F3B7B8;
+}
+
+#tab-aide .recommend-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 14px;
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+  background: var(--color-background-secondary);
+}
+
+#tab-aide .recommend-name {
+  min-width: 0;
+  color: var(--color-text-primary);
+  font-size: 14px;
+  font-weight: 750;
+  line-height: 1.25;
+}
+
+#tab-aide .recommend-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+#tab-aide .recommend-badge.ok {
+  color: var(--color-text-success);
+  background: #E8F7EF;
+}
+
+#tab-aide .recommend-badge.close {
+  color: #A16207;
+  background: var(--color-background-warning);
+}
+
+#tab-aide .recommend-badge.stretch {
+  color: var(--color-text-danger);
+  background: var(--color-background-danger);
+}
+
+#tab-aide .recommend-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+}
+
+#tab-aide .recommend-stat {
+  padding: 12px 14px;
+  border-right: 0.5px solid var(--color-border-tertiary);
+  background: #FFFFFF;
+}
+
+#tab-aide .recommend-stat:last-child {
+  border-right: 0;
+}
+
+#tab-aide .recommend-stat .lbl {
+  margin: 0 0 4px;
+  color: var(--color-text-secondary);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+#tab-aide .recommend-stat .val {
+  color: var(--color-text-primary);
+  font-size: 18px;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+}
+
+#tab-aide .recommend-argument {
+  padding: 12px 14px;
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+#tab-aide .recommend-action {
+  width: 100%;
+  min-height: 44px;
+  border: 0;
+  background: #FFFFFF;
+  color: var(--rouge);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+#tab-aide .recommend-action:active {
+  background: var(--color-background-danger);
+}
+
+#tab-aide .recommend-empty {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 66px;
+  padding: 16px 18px 16px 46px;
+  border-color: var(--color-border-tertiary);
+  background: #FFFFFF;
+  color: var(--color-text-primary);
+  font-size: 14px;
+  font-weight: 750;
+  text-align: left;
+}
+
+#tab-aide .recommend-empty::before {
+  content: "";
+  position: absolute;
+  left: 18px;
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: var(--rouge);
+  box-shadow: 0 0 0 6px var(--color-background-danger);
+}
+
+@media (max-width: 700px) {
+  #tab-aide .aide-form-grid,
+  #tab-aide .recommend-stats {
+    grid-template-columns: 1fr;
+  }
+
+  #tab-aide .recommend-stat {
+    border-right: 0;
+    border-bottom: 0.5px solid var(--color-border-tertiary);
+  }
+
+  #tab-aide .recommend-stat:last-child {
+    border-bottom: 0;
+  }
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer-info {
+  text-align: center;
+  font-size: 11px;
+  color: var(--gris-moy);
+  padding: 28px 16px 16px;
+  font-weight: 500;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (min-width: 700px) and (orientation: landscape) {
+  main { max-width: 880px; }
+}
+
+@media (max-width: 380px) {
+  .kpi .kpi-value { font-size: 26px; }
+  .aide-row { grid-template-columns: 1.2fr 1fr 1fr; }
+  .aide-row .validite { font-size: 10px; }
+  .comp-row { font-size: 11px; padding: 9px 10px; }
+  .comp-row .val { font-size: 11px; }
+  .comp-row .lbl { font-size: 10px; }
+}
+
+@supports (-webkit-touch-callout: none) {
+  select, input[type=text], input[type=number] { font-size: 16px; }
+}
+
+@media (display-mode: standalone) {
+  body { padding-top: env(safe-area-inset-top); }
+}
+
+/* ============================================================
+   CROSSFLX 2.0 — lecture rapide conseiller
+   ============================================================ */
+body {
+  background: #F4F4F6;
+  color: #111114;
+}
+
+.glass {
+  background: #FFFFFF;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: 1px solid #E0E0E5;
+  box-shadow: none;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  background: rgba(255,255,255,0.96);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid #E5E5EA;
+  box-shadow: none;
+}
+
+.header-inner {
+  padding: 18px 32px 24px;
+  max-width: 780px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.brand::before {
+  content: "";
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--rouge);
+  flex: 0 0 auto;
+}
+
+.alert-bar {
+  background: #E8F5EE;
+  border: none;
+  box-shadow: none;
+  color: #177A3F;
+  padding: 10px 20px;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.alert-bar::before {
+  width: 10px;
+  height: 10px;
+  background: #26B15E;
+}
+
+nav.tabs {
+  position: sticky;
+  top: 89px;
+  z-index: 90;
+  padding: 0;
+  background: rgba(255,255,255,0.96);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid #E1E1E6;
+}
+
+.tabs-inner {
+  max-width: 780px;
+  padding: 0 32px;
+  gap: 34px;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+nav.tabs button {
+  position: relative;
+  min-width: auto;
+  padding: 18px 0 22px;
+  border-radius: 0;
+  color: #6B6B73;
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+}
+
+nav.tabs button.active {
+  color: var(--rouge);
+  background: transparent;
+  box-shadow: none;
+  font-weight: 800;
+}
+
+nav.tabs button.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 4px;
+  background: var(--rouge);
+}
+
+
+main {
+  max-width: 780px;
+  padding: 22px 28px calc(34px + env(safe-area-inset-bottom));
+}
+
+.section-title {
+  gap: 14px;
+  margin: 26px 0 20px;
+  color: #71717A;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.section-title .num {
+  width: 34px;
+  height: 34px;
+  background: #101014;
+  font-size: 19px;
+  letter-spacing: 0;
+}
+
+.form-card {
+  padding: 30px;
+  border-radius: 32px;
+}
+
+.form-group { margin-bottom: 22px; }
+
+.form-group label {
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #74747D;
+  margin-bottom: 8px;
+}
+
+select, input[type=text], input[type=number] {
+  min-height: 72px;
+  padding: 18px 56px 18px 24px;
+  border-radius: 20px;
+  background-color: #F7F7F9;
+  border: 1px solid #D9D9DF;
+  box-shadow: none;
+  font-size: 27px;
+  font-weight: 750;
+  letter-spacing: -0.04em;
+  background-position: right 30px center;
+  background-size: 17px;
+}
+
+.form-meta {
+  font-size: 16px;
+  margin-top: 8px;
+  color: #83838A;
+}
+
+.form-group.neutralized label::after {
+  content: " · déjà actif";
+  color: #A0A0A8;
+  font-weight: 750;
+}
+
+.form-group.neutralized select {
+  color: #8D8D96;
+  background-color: #EFEFF2;
+  opacity: 0.75;
+}
+
+.kpi-grid {
+  gap: 18px;
+}
+
+.kpi {
+  border-radius: 32px;
+  background: #FFFFFF;
+  border: 1px solid #E1E1E6;
+  box-shadow: none;
+  padding: 24px 26px;
+  text-align: left;
+}
+
+.kpi.primary {
+  min-height: 250px;
+  background: #DB111B;
+  border: 0;
+  box-shadow: none;
+  color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+}
+
+.kpi .kpi-label {
+  font-size: 19px;
+  color: #76767E;
+  margin-bottom: 10px;
+  letter-spacing: 0.06em;
+}
+
+.kpi.primary .kpi-label { color: rgba(255,255,255,0.85); }
+
+.kpi .kpi-value {
+  font-size: 47px;
+  letter-spacing: -0.06em;
+  line-height: 0.98;
+}
+
+.kpi.primary .kpi-value {
+  font-size: 58px;
+  color: #FFFFFF;
+}
+
+.kpi .kpi-sub {
+  font-size: 21px;
+  font-weight: 650;
+  margin-top: 8px;
+  color: #707078;
+  letter-spacing: -0.03em;
+}
+
+.kpi.primary .kpi-sub { color: rgba(255,255,255,0.82); }
+
+.kpi-detail {
+  margin-top: auto;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255,255,255,0.28);
+  gap: 6px;
+}
+
+.detail-line {
+  font-size: 19px;
+  color: rgba(255,255,255,0.9);
+}
+
+.detail-label { font-weight: 700; }
+.detail-val { font-size: 20px; font-weight: 850; }
+
+.prix-comptant-card {
+  margin-top: 22px;
+  padding: 28px 30px;
+  border-radius: 28px;
+  background: #FFFFFF;
+  border: 1px solid #E1E1E6;
+  box-shadow: none;
+}
+
+.prix-line {
+  padding: 12px 0;
+  border-bottom: 1px solid #E8E8EC;
+}
+
+.prix-label {
+  font-size: 25px;
+  color: #707078;
+  letter-spacing: -0.035em;
+}
+
+.prix-val {
+  font-size: 28px;
+  font-weight: 850;
+  color: #111114;
+}
+
+.prix-val.highlight { color: #167A42; }
+
+.kpi-grid-single { margin-top: 22px; }
+
+.kpi-grid-single .kpi {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 20px;
+  min-height: 108px;
+}
+
+.kpi-grid-single .kpi-label {
+  margin: 0;
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.kpi-grid-single .kpi-sub {
+  grid-column: 1;
+  grid-row: 2;
+  margin: 0;
+}
+
+.kpi-grid-single .kpi-value {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  font-size: 48px;
+}
+
+.aides {
+  border-radius: 24px;
+  overflow: hidden;
+  border-color: #DADDE2;
+}
+
+.aides-header {
+  background: #149662;
+  padding: 22px 30px;
+  font-size: 24px;
+  letter-spacing: 0.06em;
+  box-shadow: none;
+  border-bottom: 0;
+}
+
+.aides-header .total {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  border-radius: 0;
+  font-size: 36px;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+}
+
+.aide-row {
+  grid-template-columns: 1.45fr 0.85fr 1fr 0.75fr;
+  gap: 16px;
+  padding: 20px 30px;
+  background: #FFFFFF;
+  border-bottom: 1px solid #E6E6EA;
+}
+
+.aide-row .label {
+  font-size: 25px;
+  font-weight: 750;
+  letter-spacing: -0.04em;
+}
+
+.aide-row .montant {
+  font-size: 29px;
+  font-weight: 900;
+  color: #10945F;
+  letter-spacing: -0.05em;
+}
+
+.aide-row .mois,
+.aide-row .validite {
+  font-size: 20px;
+  color: #6F6F77;
+  font-weight: 750;
+  line-height: 1.15;
+}
+
+.aide-row .validite {
+  text-align: right;
+}
+
+.aide-row .validite.alert {
+  color: #C76600;
+}
+
+.aide-row.aide-total {
+  background: #ECFAF4;
+  border-top: 0;
+}
+
+.aide-row.aide-total .label {
+  font-size: 22px;
+  letter-spacing: 0.04em;
+}
+
+.aide-row.aide-total .montant {
+  font-size: 30px;
+}
+
+.aides-empty-msg {
+  background: #FFFFFF;
+  padding: 28px;
+  font-size: 20px;
+}
+
+.kpi-mini-grid {
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.kpi-mini {
+  min-height: 116px;
+  border-radius: 24px;
+  background: #FFFFFF;
+  border: 1px solid #E1E1E6;
+  box-shadow: none;
+  padding: 20px 14px;
+}
+
+.kpi-mini .label {
+  font-size: 19px;
+  color: #73737B;
+  margin-bottom: 8px;
+  letter-spacing: 0.06em;
+}
+
+.kpi-mini .value {
+  font-size: 34px;
+  color: #1B5EA8;
+  letter-spacing: -0.05em;
+}
+
+.piece-ref {
+  position: relative;
+  padding: 22px 24px 22px 88px;
+  border-radius: 22px;
+  background: #EEF7FF;
+  border: 1px solid #B9D8F8;
+  box-shadow: none;
+  font-size: 24px;
+  line-height: 1.2;
+  margin-bottom: 22px;
+}
+
+.piece-ref::before {
+  content: "";
+  position: absolute;
+  left: 30px;
+  top: 50%;
+  width: 30px;
+  height: 34px;
+  transform: translateY(-50%);
+  border: 4px solid #1B5EA8;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.piece-ref strong {
+  font-size: 21px;
+  color: #1B5EA8;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+}
+
+.rentabilite {
+  display: none !important;
+}
+
+.args-grid {
+  display: block;
+  padding: 26px 30px;
+  border-radius: 28px;
+  background: #FFFFFF;
+  border: 1px solid #E1E1E6;
+}
+
+.arg {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 20px;
+  align-items: center;
+  padding: 18px 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  border-bottom: 1px solid #E9E9ED;
+}
+
+.arg:last-child { border-bottom: 0; }
+
+.arg .arg-label {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background: #EAF3FF;
+  color: #1B5EA8;
+  font-size: 22px;
+  margin: 0;
+  letter-spacing: 0;
+}
+
+.arg .arg-text {
+  font-size: 25px;
+  line-height: 1.35;
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: -0.035em;
+}
+
+.arg .arg-text strong {
+  font-weight: 850;
+}
+
+.fiche-link {
+  margin-top: 22px;
+  border-radius: 22px;
+  background: #FFFFFF;
+  border: 1px solid #E1E1E6;
+  color: #1B5EA8;
+  box-shadow: none;
+  padding: 22px;
+  font-size: 25px;
+  font-weight: 750;
+}
+
+.profile-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  padding: 12px;
+  border-radius: 28px;
+  background: #FFFFFF;
+  border: 1px solid #E1E1E6;
+  margin-bottom: 24px;
+}
+
+.profile-option {
+  border: 0;
+  border-radius: 22px;
+  background: #F4F4F7;
+  padding: 22px 18px;
+  font-family: inherit;
+  color: #6E6E76;
+  text-align: left;
+  cursor: pointer;
+}
+
+.profile-option.active {
+  background: #111114;
+  color: #FFFFFF;
+}
+
+.profile-option .profile-title {
+  display: block;
+  font-size: 24px;
+  font-weight: 850;
+  letter-spacing: -0.04em;
+  margin-bottom: 4px;
+}
+
+.profile-option .profile-sub {
+  display: block;
+  font-size: 15px;
+  font-weight: 650;
+  line-height: 1.25;
+  opacity: 0.82;
+}
+
+.receipt-card {
+  margin: 0 0 22px;
+  padding: 26px 30px;
+  border-radius: 28px;
+  background: #FFFFFF;
+  border: 1px solid #E1E1E6;
+}
+
+.receipt-title {
+  font-size: 20px;
+  font-weight: 850;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #74747D;
+  margin-bottom: 14px;
+}
+
+.receipt-line {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 18px;
+  align-items: baseline;
+  padding: 11px 0;
+  border-bottom: 1px solid #ECECF0;
+}
+
+.receipt-line:last-child { border-bottom: 0; }
+
+.receipt-line.muted {
+  color: #A0A0A8;
+}
+
+.receipt-line.total {
+  margin-top: 6px;
+  padding-top: 18px;
+  border-top: 2px solid #E5E5EA;
+  border-bottom: 0;
+}
+
+.receipt-line.primary-total {
+  margin: 0 0 10px;
+  padding: 18px 20px;
+  border: 0;
+  border-radius: 22px;
+  background: #DB111B;
+  color: #FFFFFF;
+}
+
+.receipt-line.assurance {
+  margin: 8px 0;
+  padding: 14px 18px;
+  border: 0;
+  border-radius: 18px;
+  background: #EDF7FF;
+  color: #155EA8;
+}
+
+.receipt-label {
+  font-size: 22px;
+  font-weight: 650;
+  letter-spacing: -0.035em;
+}
+
+.receipt-value {
+  font-size: 23px;
+  font-weight: 850;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.04em;
+}
+
+.receipt-line.total .receipt-label,
+.receipt-line.total .receipt-value {
+  color: #111114;
+  font-size: 25px;
+  font-weight: 900;
+}
+
+.receipt-line.primary-total .receipt-label,
+.receipt-line.primary-total .receipt-value {
+  color: #FFFFFF;
+  font-size: 29px;
+  font-weight: 900;
+}
+
+.receipt-line.assurance .receipt-label,
+.receipt-line.assurance .receipt-value {
+  color: #155EA8;
+  font-weight: 900;
+}
+
+.receipt-note {
+  margin-top: 14px;
+  padding: 13px 16px;
+  border-radius: 16px;
+  background: #F5F5F7;
+  color: #777780;
+  font-size: 16px;
+  font-weight: 650;
+  line-height: 1.3;
+}
+
+.footer-info {
+  font-size: 21px;
+  color: #A0A0A8;
+  padding-top: 36px;
+}
+
+@media (max-width: 520px) {
+  .header-inner { padding-left: 22px; padding-right: 22px; }
+  .brand { font-size: 30px; gap: 12px; }
+  .brand::before { width: 14px; height: 14px; }
+  .alert-bar { font-size: 15px; padding: 8px 12px; }
+  nav.tabs { top: 75px; }
+  .tabs-inner { padding: 0 22px; gap: 28px; }
+  nav.tabs button { font-size: 24px; }
+  main { padding-left: 22px; padding-right: 22px; }
+  .form-card { padding: 24px; }
+  select, input[type=text], input[type=number] { font-size: 24px; }
+  .kpi.primary { min-height: 212px; padding: 24px 22px; }
+  .kpi.primary .kpi-value { font-size: 50px; }
+  .aide-row { grid-template-columns: 1.25fr 0.8fr 0.95fr 0.7fr; padding-left: 22px; padding-right: 22px; }
+  .aide-row .label { font-size: 22px; }
+  .aide-row .montant { font-size: 26px; }
+  .aide-row .mois, .aide-row .validite { font-size: 18px; }
+  .profile-card { grid-template-columns: 1fr; }
+  .profile-option .profile-title { font-size: 22px; }
+  .receipt-card { padding: 22px; }
+  .receipt-label, .receipt-value { font-size: 20px; }
+}
+
+@media (max-width: 380px) {
+  .kpi .kpi-value { font-size: 36px; }
+  .kpi.primary .kpi-value { font-size: 42px; }
+  .aide-row { grid-template-columns: 1fr 0.8fr; }
+  .aide-row .mois, .aide-row .validite { text-align: left; }
+  .arg .arg-text { font-size: 21px; }
+}
+
+/* ============================================================
+   CROSSFLX 2.1 — ticket compact + choix profil bloquant
+   ============================================================ */
+body.needs-profile nav.tabs {
+  display: none;
+}
+
+#simulatorBody[hidden] {
+  display: none !important;
+}
+
+body.needs-profile main {
+  max-width: 560px;
+  padding-top: 28px;
+}
+
+body.needs-profile .section-title {
+  justify-content: center;
+  text-align: center;
+}
+
+.header-inner {
+  padding: 12px 20px 14px;
+}
+
+.brand {
+  font-size: 28px;
+  gap: 10px;
+}
+
+.brand::before {
+  width: 13px;
+  height: 13px;
+}
+
+.alert-bar {
+  font-size: 14px;
+  padding: 7px 12px;
+}
+
+nav.tabs {
+  top: 65px;
+}
+
+.tabs-inner {
+  padding: 0 18px;
+  gap: 22px;
+}
+
+nav.tabs button {
+  font-size: 16px;
+  padding: 12px 0 14px;
+}
+
+main {
+  max-width: 680px;
+  padding: 16px 18px calc(28px + env(safe-area-inset-bottom));
+}
+
+.section-title {
+  margin: 18px 0 12px;
+  gap: 9px;
+  font-size: 13px;
+  letter-spacing: 0.11em;
+}
+
+.section-title .num {
+  width: 24px;
+  height: 24px;
+  font-size: 12px;
+}
+
+.profile-card {
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 22px;
+  margin-bottom: 14px;
+}
+
+.profile-option {
+  padding: 16px;
+  border-radius: 16px;
+}
+
+.profile-option .profile-title {
+  font-size: 18px;
+  letter-spacing: -0.02em;
+}
+
+.profile-option .profile-sub {
+  font-size: 12px;
+}
+
+.form-card {
+  padding: 18px;
+  border-radius: 22px;
+}
+
+.form-group {
+  margin-bottom: 14px;
+}
+
+.form-group label {
+  font-size: 12px;
+  margin-bottom: 7px;
+}
+
+select, input[type=text], input[type=number] {
+  min-height: 48px;
+  padding: 12px 42px 12px 14px;
+  border-radius: 14px;
+  font-size: 16px;
+  letter-spacing: -0.01em;
+  background-position: right 16px center;
+  background-size: 12px;
+}
+
+.form-meta {
+  font-size: 12px;
+}
+
+.form-group.neutralized select {
+  opacity: 1;
+  background-color: #F2F2F4;
+}
+
+.kpi-grid {
+  gap: 10px;
+}
+
+.kpi,
+.kpi.primary {
+  border-radius: 20px;
+  padding: 16px;
+}
+
+.kpi.primary {
+  min-height: 148px;
+}
+
+.kpi .kpi-label {
+  font-size: 11px;
+  margin-bottom: 6px;
+}
+
+.kpi.primary .kpi-value,
+.kpi .kpi-value {
+  font-size: 32px;
+  letter-spacing: -0.03em;
+}
+
+.kpi .kpi-sub {
+  font-size: 12px;
+}
+
+.kpi-detail {
+  padding-top: 10px;
+}
+
+.detail-line {
+  font-size: 12px;
+}
+
+.detail-val {
+  font-size: 12px;
+}
+
+.receipt-card {
+  position: relative;
+  margin-bottom: 14px;
+  padding: 18px;
+  border-radius: 18px;
+  background: #FFFDF8;
+  border: 1px solid #E7E1D6;
+  box-shadow: 0 8px 24px rgba(68, 52, 28, 0.06);
+}
+
+.receipt-card::before,
+.receipt-card::after {
+  content: "";
+  position: absolute;
+  top: 84px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #F4F4F6;
+  border: 1px solid #E7E1D6;
+}
+
+.receipt-card::before { left: -8px; }
+.receipt-card::after { right: -8px; }
+
+.receipt-title {
+  display: none;
+}
+
+.receipt-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 10px;
+  font-size: 12px;
+  color: #81776B;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.receipt-head strong {
+  color: #171717;
+  font-size: 14px;
+}
+
+.receipt-section {
+  padding: 10px 0;
+  border-top: 1px dashed #D8D2C8;
+}
+
+.receipt-section:first-of-type {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.receipt-section.existing {
+  color: #8F8F96;
+}
+
+.receipt-line {
+  grid-template-columns: minmax(0, 1fr) auto;
+  padding: 5px 0;
+  border: 0;
+}
+
+.receipt-label,
+.receipt-value {
+  font-size: 14px;
+  letter-spacing: 0;
+}
+
+.receipt-label {
+  font-weight: 600;
+  color: #343438;
+}
+
+.receipt-value {
+  font-weight: 750;
+}
+
+.receipt-line.hero {
+  margin-bottom: 6px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: #111114;
+  color: #FFFFFF;
+}
+
+.receipt-line.hero .receipt-label,
+.receipt-line.hero .receipt-value {
+  color: #FFFFFF;
+  font-size: 18px;
+  font-weight: 850;
+}
+
+.receipt-line.today .receipt-value {
+  font-weight: 850;
+}
+
+.receipt-line.invoice-total {
+  margin: 6px 0;
+  padding: 9px 12px;
+  border-radius: 12px;
+  background: #F4F4F7;
+}
+
+.receipt-line.invoice-total .receipt-label,
+.receipt-line.invoice-total .receipt-value {
+  color: #313138;
+  font-weight: 850;
+}
+
+.receipt-line.assurance {
+  margin: 4px 0;
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: #EDF7FF;
+}
+
+.receipt-line.assurance .receipt-label,
+.receipt-line.assurance .receipt-value {
+  color: #155EA8;
+  font-weight: 850;
+}
+
+.receipt-line.muted .receipt-label,
+.receipt-line.muted .receipt-value {
+  color: #9A9AA2;
+}
+
+.receipt-line.cash-price .receipt-label,
+.receipt-line.cash-price .receipt-value {
+  color: #6D6256;
+  font-size: 13px;
+}
+
+.receipt-note {
+  margin-top: 8px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+.prix-comptant-card,
+.kpi-grid-single .kpi {
+  border-radius: 18px;
+  padding: 16px 18px;
+}
+
+.prix-label {
+  font-size: 14px;
+}
+
+.prix-val {
+  font-size: 16px;
+}
+
+.kpi-grid-single .kpi-value {
+  font-size: 28px;
+}
+
+.aides-header {
+  padding: 14px 18px;
+  font-size: 14px;
+}
+
+.aides-header .total {
+  font-size: 22px;
+}
+
+.aide-row {
+  padding: 12px 18px;
+  gap: 8px;
+}
+
+.aide-row .label,
+.aide-row .mois,
+.aide-row .validite {
+  font-size: 13px;
+}
+
+.aide-row .montant {
+  font-size: 18px;
+}
+
+.kpi-mini {
+  min-height: 82px;
+  padding: 14px 10px;
+}
+
+.kpi-mini .label {
+  font-size: 11px;
+}
+
+.kpi-mini .value {
+  font-size: 22px;
+}
+
+.piece-ref {
+  padding: 16px 18px 16px 58px;
+  font-size: 15px;
+  border-radius: 18px;
+}
+
+.piece-ref::before {
+  left: 20px;
+  width: 20px;
+  height: 23px;
+  border-width: 3px;
+}
+
+.piece-ref strong {
+  font-size: 12px;
+}
+
+.args-grid {
+  padding: 16px 18px;
+  border-radius: 18px;
+}
+
+.arg {
+  grid-template-columns: 36px 1fr;
+  gap: 12px;
+  padding: 12px 0;
+}
+
+.arg .arg-label {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  font-size: 15px;
+}
+
+.arg .arg-text {
+  font-size: 15px;
+}
+
+.fiche-link {
+  font-size: 16px;
+  padding: 16px;
+  border-radius: 16px;
+}
+
+.footer-info {
+  font-size: 12px;
+}
+
+body.mode-abonne .receipt-line.hero {
+  background: transparent !important;
+}
+
+.offer-announcement-layout {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+
+.receipt-flip {
+  width: min(100%, 460px);
+  height: var(--receipt-flip-height, 470px);
+  min-height: var(--receipt-flip-height, 470px);
+  cursor: pointer;
+  perspective: 1200px;
+}
+
+.receipt-flip:focus-visible {
+  outline: 3px solid rgba(27, 94, 168, 0.26);
+  outline-offset: 8px;
+  border-radius: 12px;
+}
+
+.receipt-flip-inner {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: var(--receipt-flip-height, 470px);
+  min-height: var(--receipt-flip-height, 470px);
+  transform-style: preserve-3d;
+  transition: transform 420ms cubic-bezier(.2,.8,.2,1);
+}
+
+.receipt-flip.is-flipped .receipt-flip-inner {
+  transform: rotateY(180deg);
+}
+
+.receipt-face {
+  position: absolute;
+  inset: 0;
+  display: block;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.receipt-front {
+  z-index: 2;
+}
+
+.receipt-back {
+  transform: rotateY(180deg);
+}
+
+/* Ticket reçu caisse - rendu final */
+.receipt-card {
+  max-width: 380px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 16px;
+  border-radius: 8px;
+  background:
+    linear-gradient(90deg, transparent 0 10px, rgba(0,0,0,0.025) 10px 11px, transparent 11px) 0 0 / 22px 100%,
+    #FFFEFA;
+  border: 1px solid #DED8CC;
+  box-shadow: 0 10px 22px rgba(30, 24, 16, 0.08);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.offer-announcement-layout .receipt-card {
+  display: block;
+  width: 100%;
+  min-height: var(--receipt-flip-height, 470px);
+  max-width: none;
+  margin: 0;
+}
+
+.ticket-side-title {
+  display: block;
+  margin: 2px 0 16px;
+  color: #71717A;
+  font-size: 13px;
+  font-weight: 850;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.assurance-back {
+  background: #FFFFFF;
+  border-color: #DFDFE5;
+  box-shadow: 0 10px 24px rgba(24, 24, 27, 0.08);
+}
+
+.ticket-arguments-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+  gap: 12px;
+}
+
+.ticket-arguments-grid .kpi-mini {
+  min-height: 138px;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 2px;
+  border-radius: 18px;
+  border: 1px solid #E1E1E6;
+  background: #FFFFFF;
+  box-shadow: 0 8px 18px rgba(24, 24, 27, 0.04);
+}
+
+.ticket-arguments-grid .kpi-mini .label {
+  margin-bottom: 8px;
+  color: #74747D;
+  font-size: 12px;
+  font-weight: 850;
+  letter-spacing: 0.12em;
+}
+
+.ticket-arguments-grid .kpi-mini .value {
+  color: #1B5EA8;
+  font-size: 29px;
+  font-weight: 850;
+  letter-spacing: -0.03em;
+}
+
+.ticket-arguments-grid .kpi-mini .subvalue {
+  color: #73737B;
+  font-size: 12px;
+  font-weight: 750;
+  letter-spacing: 0;
+}
+
+.receipt-card::before,
+.receipt-card::after {
+  display: none;
+}
+
+.receipt-head {
+  padding-bottom: 9px;
+  margin-bottom: 2px;
+  border-bottom: 1px dashed #CFC7BA;
+  font-size: 11px;
+}
+
+.receipt-head strong {
+  font-size: 14px;
+  letter-spacing: 0.1em;
+}
+
+.receipt-section {
+  padding: 9px 0;
+  border-top: 1px dashed #D8D2C8;
+}
+
+.receipt-section:first-of-type {
+  border-top: 0;
+}
+
+.receipt-line {
+  gap: 12px;
+  min-height: 24px;
+  padding: 4px 0;
+}
+
+.receipt-label {
+  color: #57524B;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.receipt-value {
+  color: #171717;
+  font-size: 12px;
+  font-weight: 750;
+  text-align: right;
+  white-space: nowrap;
+  letter-spacing: 0;
+}
+
+.receipt-line:first-child .receipt-value {
+  white-space: normal;
+  max-width: 170px;
+}
+
+.receipt-line.hero {
+  margin: 7px 0 3px;
+  padding: 9px 0 6px;
+  border-top: 2px solid #171717;
+  border-bottom: 2px solid #171717;
+  border-radius: 0;
+  background: transparent !important;
+}
+
+.receipt-line.hero .receipt-label,
+.receipt-line.hero .receipt-value {
+  color: #171717;
+  font-size: 15px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.receipt-line.invoice-total {
+  margin: 4px 0;
+  padding: 6px 0;
+  border-top: 1px dashed #AFA79B;
+  border-radius: 0;
+  background: transparent !important;
+}
+
+.receipt-line.invoice-total .receipt-label,
+.receipt-line.invoice-total .receipt-value {
+  color: #171717;
+  font-size: 13px;
+}
+
+.receipt-line.assurance {
+  margin: 0;
+  padding: 4px 0;
+  border-radius: 0;
+  border-left: 0;
+  background: transparent !important;
+}
+
+.receipt-line.assurance .receipt-label::after {
+  content: "  *";
+  color: #171717;
+}
+
+.receipt-line.cash-price .receipt-label,
+.receipt-line.cash-price .receipt-value {
+  color: #6D6256;
+  font-size: 12px;
+}
+
+.receipt-line.option-final {
+  margin-top: 6px;
+  padding-top: 8px;
+  border-top: 1px dashed #AFA79B;
+}
+
+.receipt-line.option-final .receipt-label,
+.receipt-line.option-final .receipt-value {
+  color: #171717;
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.receipt-line.today {
+  padding-bottom: 7px;
+}
+
+.receipt-line.today .receipt-label,
+.receipt-line.today .receipt-value {
+  font-weight: 850;
+}
+
+.receipt-existing {
+  margin-top: 2px;
+  padding-top: 8px;
+  border-top: 1px dashed #D8D2C8;
+  color: #8B867E;
+  font-size: 11px;
+  line-height: 1.35;
+  text-align: center;
+}
+
+.receipt-note {
+  background: #F7F3EA;
+  color: #6E665B;
+  font-family: -apple-system, "SF Pro Text", "Helvetica Neue", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+@media (max-width: 520px) {
+  .header-inner { padding-left: 18px; padding-right: 18px; }
+  .brand { font-size: 24px; }
+  nav.tabs { top: 55px; }
+  .tabs-inner { padding: 0 18px; gap: 20px; }
+  nav.tabs button { font-size: 15px; }
+  main { padding-left: 16px; padding-right: 16px; }
+  .profile-card { grid-template-columns: 1fr; }
+  .profile-option .profile-title { font-size: 18px; }
+  select, input[type=text], input[type=number] { font-size: 16px; }
+  .kpi.primary { min-height: 142px; padding: 15px; }
+  .kpi.primary .kpi-value { font-size: 31px; }
+  .receipt-flip,
+  .receipt-flip-inner,
+  .offer-announcement-layout .receipt-card { min-height: var(--receipt-flip-height, 470px); }
+  .receipt-card { padding: 16px; }
+  .ticket-arguments-grid .kpi-mini { min-height: 128px; }
+  .receipt-label, .receipt-value { font-size: 14px; }
+  .receipt-line.hero .receipt-label,
+  .receipt-line.hero .receipt-value { font-size: 17px; }
+  .aide-row { grid-template-columns: 1.25fr 0.8fr 0.9fr 0.75fr; padding-left: 14px; padding-right: 14px; }
+  .aide-row .label, .aide-row .mois, .aide-row .validite { font-size: 12px; }
+  .aide-row .montant { font-size: 16px; }
+}
+
+/* ============================================================
+   SIMULATEUR - harmonie ticket
+   ============================================================ */
+#tab-simulateur {
+  --paper: #FFFEFA;
+  --paper-border: #DED8CC;
+}
+
+.simulator-controls-layout {
+  display: grid;
+  width: min(100%, 460px);
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: 10px;
+  align-items: stretch;
+  margin: 0 auto 18px;
+}
+
+.simulator-controls-layout #simulatorBody {
+  display: contents;
+}
+
+.simulator-controls-layout #simulatorBody[hidden] {
+  display: none;
+}
+
+.simulator-step {
+  min-width: 0;
+}
+
+#tab-simulateur .section-title {
+  margin: 14px 0 8px;
+  color: #6E6B66;
+  font-size: 13px;
+  font-weight: 850;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+#tab-simulateur .section-title .num {
+  width: 26px;
+  height: 26px;
+  margin-right: 8px;
+  background: #171717;
+  color: #FFFFFF;
+  font-size: 13px;
+  box-shadow: none;
+}
+
+#tab-simulateur .profile-card,
+#tab-simulateur .choice-card {
+  border-radius: 14px;
+  background:
+    linear-gradient(90deg, transparent 0 10px, rgba(0,0,0,0.018) 10px 11px, transparent 11px) 0 0 / 22px 100%,
+    var(--paper);
+  border: 1px solid var(--paper-border);
+  box-shadow: 0 10px 22px rgba(30, 24, 16, 0.06);
+}
+
+#tab-simulateur .profile-card {
+  height: calc(100% - 44px);
+  min-height: 230px;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  padding: 8px;
+  margin-bottom: 0;
+}
+
+#tab-simulateur .profile-option {
+  min-height: 86px;
+  padding: 12px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px dashed #D7CEC0;
+  color: #3C3935;
+  transition: transform 160ms ease, background 160ms ease, color 160ms ease;
+}
+
+#tab-simulateur .profile-option:active {
+  transform: scale(0.985);
+}
+
+#tab-simulateur .profile-option.active {
+  background: #171717;
+  border-color: #171717;
+  color: #FFFFFF;
+}
+
+#tab-simulateur .profile-option .profile-title {
+  font-size: 16px;
+  letter-spacing: -0.02em;
+  margin-bottom: 2px;
+}
+
+#tab-simulateur .profile-option .profile-sub {
+  font-size: 10.5px;
+  font-weight: 700;
+  opacity: 0.72;
+}
+
+#tab-simulateur .choice-card {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 9px;
+  padding: 12px;
+  margin-bottom: 0;
+}
+
+#tab-simulateur .choice-card .form-group {
+  margin: 0;
+}
+
+#tab-simulateur .choice-card .form-group:last-child {
+  grid-column: auto;
+}
+
+#tab-simulateur .form-group label {
+  margin: 0 0 6px;
+  color: #6E6B66;
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 0.13em;
+}
+
+#tab-simulateur select {
+  min-height: 43px;
+  padding: 10px 36px 10px 11px;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.78);
+  border: 1px solid #DED8CC;
+  box-shadow: none;
+  color: #171717;
+  font-size: 13.5px;
+  font-weight: 760;
+}
+
+#tab-simulateur select:focus {
+  border-color: #171717;
+  box-shadow: 0 0 0 3px rgba(23, 23, 23, 0.09);
+}
+
+#tab-simulateur .form-meta {
+  margin-top: 6px;
+  color: #7D766C;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 650;
+}
+
+#tab-simulateur .offer-announcement-layout {
+  margin-top: 4px;
+}
+
+@media (max-width: 520px) {
+  .simulator-controls-layout {
+    display: block;
+  }
+
+  .simulator-controls-layout #simulatorBody {
+    display: block;
+  }
+
+  #tab-simulateur .profile-card {
+    height: auto;
+    min-height: 0;
+    margin-bottom: 20px;
+  }
+
+  #tab-simulateur .choice-card {
+    grid-template-columns: 1fr;
+  }
+  #tab-simulateur .profile-card {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================================
+   SIMULATEUR 2.0 - outil de pitch
+   ============================================================ */
+#tab-simulateur {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+#tab-simulateur .section-title {
+  margin: 18px 0 9px;
+  color: var(--color-text-secondary);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+#tab-simulateur .section-title .num {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+  background: var(--color-text-primary);
+  color: #FFFFFF;
+  font-size: 12px;
+}
+
+#tab-simulateur .profile-card {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  height: auto !important;
+  min-height: 0 !important;
+  margin: 0 0 18px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+#tab-simulateur .profile-option {
+  display: grid;
+  grid-template-columns: 26px 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 10px;
+  align-items: center;
+  min-height: 76px;
+  padding: 13px;
+  border: 1px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-lg);
+  background: var(--color-background-primary);
+  color: var(--color-text-primary);
+  text-align: left;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+}
+
+#tab-simulateur .profile-option i {
+  grid-row: 1 / 3;
+  align-self: center;
+  color: var(--rouge);
+  font-size: 22px;
+}
+
+#tab-simulateur .profile-option.active {
+  border-color: rgba(205, 23, 25, 0.32);
+  background: #FFF7F7;
+  color: var(--color-text-primary);
+}
+
+#tab-simulateur .profile-option .profile-title {
+  align-self: end;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+#tab-simulateur .profile-option .profile-sub {
+  align-self: start;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  line-height: 1.25;
+}
+
+#tab-simulateur .sim-card,
+#tab-simulateur .finance-card,
+#tab-simulateur .aides-table-card,
+#tab-simulateur .insurance-pitch {
+  border: 1px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-lg);
+  background: var(--color-background-primary);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+}
+
+#tab-simulateur .choice-card {
+  display: block;
+  padding: 14px;
+  margin: 0 0 18px;
+}
+
+#tab-simulateur .phone-choice-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+#tab-simulateur .choice-card .form-group {
+  margin: 0 0 12px;
+}
+
+#tab-simulateur .phone-choice-grid .form-group {
+  margin-bottom: 0;
+}
+
+#tab-simulateur .form-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 6px;
+  color: var(--color-text-secondary);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+#tab-simulateur .field-badge,
+#tab-simulateur .line-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 18px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: var(--color-background-secondary);
+  color: var(--color-text-secondary);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+#tab-simulateur .field-badge {
+  background: #E8F7EF;
+  color: var(--color-text-success);
+}
+
+#tab-simulateur .form-group.neutralized label::after {
+  content: none;
+}
+
+#tab-simulateur select {
+  min-height: 46px;
+  padding: 11px 38px 11px 12px;
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--color-border-tertiary);
+  background-color: var(--color-background-secondary);
+  box-shadow: none;
+  font-size: 14px;
+  font-weight: 650;
+}
+
+#tab-simulateur .form-meta {
+  margin-top: 8px;
+  color: var(--color-text-tertiary);
+  font-size: 12px;
+  font-style: normal;
+}
+
+#tab-simulateur .finance-card {
+  overflow: hidden;
+  margin-bottom: 18px;
+}
+
+#tab-simulateur .finance-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 12px 14px;
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+  background: var(--color-background-secondary);
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+#tab-simulateur .finance-head strong {
+  max-width: 48%;
+  color: var(--color-text-primary);
+  font-size: 12px;
+  font-weight: 700;
+  text-align: right;
+}
+
+#tab-simulateur .recap-line {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+  color: var(--color-text-primary);
+}
+
+#tab-simulateur .recap-line:last-child {
+  border-bottom: 0;
+}
+
+#tab-simulateur .recap-line div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+#tab-simulateur .recap-line span {
+  color: var(--color-text-secondary);
+  font-size: 14px;
+}
+
+#tab-simulateur .recap-line strong {
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+#tab-simulateur .recap-line.highlight,
+#tab-simulateur .recap-line.synthesis {
+  background: var(--color-background-secondary);
+}
+
+#tab-simulateur .recap-line.highlight strong {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+#tab-simulateur .recap-line.synthesis strong {
+  font-size: 17px;
+  font-weight: 600;
+}
+
+#tab-simulateur .recap-line.invoice-context {
+  background: #FAFAFB;
+}
+
+#tab-simulateur .recap-line.invoice-context span,
+#tab-simulateur .recap-line.invoice-context strong {
+  color: var(--color-text-secondary);
+}
+
+#tab-simulateur .recap-line.accent strong {
+  color: #0D9488;
+}
+
+#tab-simulateur .line-badge.success {
+  background: #E6F7F4;
+  color: #0D9488;
+}
+
+#tab-simulateur .line-badge.muted {
+  background: #F0F0F2;
+  color: var(--color-text-tertiary);
+}
+
+#tab-simulateur .line-badge.warning {
+  background: var(--color-background-warning);
+  color: #A16207;
+}
+
+#tab-simulateur .recap-line.muted span,
+#tab-simulateur .recap-line.muted strong {
+  color: var(--color-text-tertiary);
+  font-weight: 500;
+}
+
+#tab-simulateur .recap-line.cash-muted strong {
+  color: var(--color-text-tertiary);
+  text-decoration: line-through;
+}
+
+#tab-simulateur .recap-line.success strong {
+  color: var(--color-text-success);
+}
+
+#tab-simulateur .aides-table-card {
+  overflow: hidden;
+  margin-bottom: 18px;
+}
+
+#tab-simulateur .aides-grid {
+  display: grid;
+  grid-template-columns: 1.35fr 0.8fr 1fr 1fr;
+  gap: 10px;
+  align-items: center;
+  padding: 11px 14px;
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+  font-size: 13px;
+}
+
+#tab-simulateur .aides-grid-head {
+  background: var(--color-background-secondary);
+  color: var(--color-text-secondary);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+#tab-simulateur .aides-grid-row strong {
+  color: var(--color-text-danger);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+#tab-simulateur .aides-grid-row.empty strong,
+#tab-simulateur .aides-grid-row.empty span {
+  color: var(--color-text-tertiary);
+}
+
+#tab-simulateur .muted-note {
+  color: var(--color-text-tertiary);
+}
+
+#tab-simulateur .aides-total {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: center;
+  padding: 13px 14px;
+  background: var(--color-background-danger);
+}
+
+#tab-simulateur .aides-total div {
+  display: grid;
+  gap: 2px;
+}
+
+#tab-simulateur .aides-total span {
+  color: var(--color-text-secondary);
+  font-size: 12px;
+}
+
+#tab-simulateur .aides-total > strong {
+  color: var(--color-text-danger);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+#tab-simulateur .insurance-pitch {
+  padding: 14px;
+  background: var(--color-background-success);
+  border-color: #BFEAD8;
+}
+
+#tab-simulateur .pitch-zone-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  color: #0F766E;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+#tab-simulateur .pitch-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+#tab-simulateur .pitch-kpi {
+  min-height: 104px;
+  padding: 12px;
+  border: 1px solid #BFEAD8;
+  border-radius: var(--border-radius-md);
+  background: #FFFFFF;
+}
+
+#tab-simulateur .pitch-kpi i {
+  color: #0F766E;
+  font-size: 20px;
+}
+
+#tab-simulateur .pitch-kpi strong {
+  display: block;
+  margin: 8px 0 3px;
+  color: var(--color-text-primary);
+  font-size: 20px;
+  font-weight: 600;
+}
+
+#tab-simulateur .pitch-kpi span {
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  line-height: 1.25;
+}
+
+#tab-simulateur .year-breakdown {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-radius: var(--border-radius-md);
+  background: var(--color-background-secondary);
+  overflow: hidden;
+}
+
+#tab-simulateur .year-breakdown div {
+  padding: 12px;
+  border-right: 0.5px solid var(--color-border-tertiary);
+}
+
+#tab-simulateur .year-breakdown div:last-child {
+  border-right: 0;
+}
+
+#tab-simulateur .year-breakdown span,
+#tab-simulateur .year-breakdown em {
+  display: block;
+  color: var(--color-text-secondary);
+  font-size: 11px;
+  font-style: normal;
+}
+
+#tab-simulateur .year-breakdown strong {
+  display: block;
+  margin: 4px 0 2px;
+  color: var(--color-text-primary);
+  font-size: 18px;
+  font-weight: 650;
+}
+
+#tab-simulateur .year-breakdown .accent strong {
+  color: var(--color-text-danger);
+}
+
+@media (max-width: 700px) {
+  #tab-simulateur .phone-choice-grid,
+  #tab-simulateur .pitch-kpi-grid,
+  #tab-simulateur .year-breakdown {
+    grid-template-columns: 1fr;
+  }
+
+  #tab-simulateur .profile-card {
+    grid-template-columns: 1fr;
+  }
+
+  #tab-simulateur .aides-grid {
+    grid-template-columns: 1.1fr 0.8fr;
+  }
+
+  #tab-simulateur .aides-grid span:nth-child(3),
+  #tab-simulateur .aides-grid span:nth-child(4) {
+    font-size: 12px;
+  }
+}
+
+@media (orientation: landscape) and (min-width: 850px) {
+  main {
+    max-width: 1120px;
+    padding-top: 12px;
+  }
+
+  #tab-simulateur.active {
+    max-width: 1080px;
+    display: grid;
+    grid-template-columns: minmax(340px, 0.82fr) minmax(460px, 1.18fr);
+    column-gap: 16px;
+    row-gap: 8px;
+    align-items: start;
+    grid-template-areas:
+      "profileTitle financeTitle"
+      "profile finance"
+      "choiceTitle finance"
+      "choice finance"
+      "aidesTitle pitchTitle"
+      "aides pitch";
+  }
+
+  #tab-simulateur #simulatorBody {
+    display: contents;
+  }
+
+  #tab-simulateur .sim-title-profile { grid-area: profileTitle; }
+  #tab-simulateur .sim-profile-block { grid-area: profile; }
+  #tab-simulateur .sim-title-choice { grid-area: choiceTitle; }
+  #tab-simulateur .sim-choice-block { grid-area: choice; }
+  #tab-simulateur .sim-title-finance { grid-area: financeTitle; }
+  #tab-simulateur .sim-finance-block { grid-area: finance; }
+  #tab-simulateur .sim-title-aides { grid-area: aidesTitle; }
+  #tab-simulateur .sim-aides-block { grid-area: aides; }
+  #tab-simulateur .sim-title-pitch { grid-area: pitchTitle; }
+  #tab-simulateur .sim-pitch-block { grid-area: pitch; }
+
+  #tab-simulateur .section-title {
+    margin: 8px 0 6px;
+  }
+
+  #tab-simulateur .profile-card,
+  #tab-simulateur .choice-card,
+  #tab-simulateur .finance-card,
+  #tab-simulateur .aides-table-card {
+    margin-bottom: 0;
+  }
+
+  #tab-simulateur .profile-card {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  #tab-simulateur .profile-option {
+    min-height: 66px;
+    padding: 10px;
+  }
+
+  #tab-simulateur .profile-option .profile-title {
+    font-size: 14px;
+  }
+
+  #tab-simulateur .profile-option .profile-sub {
+    font-size: 10.5px;
+  }
+
+  #tab-simulateur .choice-card {
+    padding: 12px;
+  }
+
+  #tab-simulateur .phone-choice-grid {
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 10px;
+  }
+
+  #tab-simulateur select {
+    min-height: 42px;
+    font-size: 13px;
+  }
+
+  #tab-simulateur .finance-head,
+  #tab-simulateur .recap-line {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  #tab-simulateur .recap-line {
+    padding-top: 9px;
+    padding-bottom: 9px;
+  }
+
+  #tab-simulateur .recap-line.highlight strong {
+    font-size: 17px;
+  }
+
+  #tab-simulateur .aides-grid {
+    grid-template-columns: 1.2fr 0.72fr 1fr 0.9fr;
+    padding: 9px 10px;
+    gap: 8px;
+    font-size: 12px;
+  }
+
+  #tab-simulateur .aides-grid-head {
+    font-size: 10px;
+  }
+
+  #tab-simulateur .aides-total {
+    padding: 10px;
+  }
+
+  #tab-simulateur .insurance-pitch {
+    padding: 12px;
+  }
+
+  #tab-simulateur .pitch-kpi-grid {
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  #tab-simulateur .pitch-kpi {
+    min-height: 92px;
+    padding: 10px;
+  }
+
+  #tab-simulateur .pitch-kpi strong {
+    font-size: 18px;
+  }
+
+  #tab-simulateur .pitch-kpi span {
+    font-size: 11px;
+  }
+
+  #tab-simulateur .year-breakdown div {
+    padding: 10px;
+  }
+
+  #tab-simulateur .year-breakdown strong {
+    font-size: 16px;
+  }
+}
+
+/* ============================================================
+   PASSWORD OVERLAY
+   ============================================================ */
+#pwdOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: #F2F2F5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+#pwdOverlay.hidden { display: none; }
+
+.pwd-card {
+  width: 100%;
+  max-width: 360px;
+  padding: 32px 24px;
+  background: white;
+  border-radius: 22px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+.pwd-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--noir);
+  margin-bottom: 6px;
+  letter-spacing: -0.02em;
+}
+
+.pwd-subtitle {
+  font-size: 13px;
+  color: var(--gris-moy);
+  margin-bottom: 24px;
+}
+
+.pwd-input {
+  width: 100%;
+  padding: 14px 16px;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--noir);
+  background: #F5F5F7;
+  border: 2px solid transparent;
+  border-radius: 14px;
+  margin-bottom: 12px;
+  letter-spacing: 0.04em;
+  text-align: center;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.pwd-input:focus {
+  outline: none;
+  border-color: var(--rouge);
+  background: white;
+}
+
+.pwd-error {
+  font-size: 12px;
+  color: var(--rouge);
+  font-weight: 600;
+  min-height: 16px;
+  margin-bottom: 12px;
+}
+
+.pwd-btn {
+  width: 100%;
+  padding: 14px;
+  background: var(--rouge);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.pwd-btn:active { background: var(--rouge-fonce); }
+
+</style>
+</head>
+<body class="needs-profile">
+
+<div id="pwdOverlay">
+  <div class="pwd-card">
+    <div class="pwd-title">CrossFLX</div>
+    <div class="pwd-subtitle">accès protégé</div>
+    <input type="password" class="pwd-input" id="pwdInput" placeholder="Mot de passe" autocomplete="off" autofocus>
+    <div class="pwd-error" id="pwdError">&nbsp;</div>
+    <button class="pwd-btn" id="pwdBtn">Accéder</button>
+  </div>
+</div>
+
+
+
+
+<header>
+  <div class="header-inner">
+    <div class="brand">CrossFLX</div>
+    <div id="alertBar" class="alert-bar"></div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <div class="tabs-inner">
+    <button data-tab="simulateur" class="active">Simulateur</button>
+    <button data-tab="aide" class="tab-aide">Aide vente</button>
+  </div>
+</nav>
+
+<main>
+
+<section class="tab-panel active" id="tab-simulateur">
+
+  <h2 class="section-title sim-title-profile"><span class="num">1</span>Profil client</h2>
+  <div class="profile-card sim-profile-block" role="group" aria-label="Profil client">
+    <button class="profile-option active" type="button" data-profile="prospect">
+      <i class="ti ti-user-plus"></i>
+      <span class="profile-title">Prospect</span>
+      <span class="profile-sub">Forfait + téléphone + assurance</span>
+    </button>
+    <button class="profile-option" type="button" data-profile="abonne">
+      <i class="ti ti-user-check"></i>
+      <span class="profile-title">Déjà abonné</span>
+      <span class="profile-sub">Téléphone + assurance</span>
+    </button>
+  </div>
+
+  <div id="simulatorBody">
+    <h2 class="section-title sim-title-choice"><span class="num">2</span>Choix téléphone</h2>
+    <div class="sim-card choice-card sim-choice-block">
+      <div class="form-group" id="forfaitGroup">
+        <label for="forfait" id="forfaitLabel">Forfait</label>
+        <select id="forfait"></select>
+      </div>
+      <div class="phone-choice-grid">
+        <div class="form-group">
+          <label for="marque">Marque</label>
+          <select id="marque"></select>
+        </div>
+        <div class="form-group">
+          <label for="modele">Modèle</label>
+          <select id="modele"></select>
+        </div>
+      </div>
+      <div class="form-meta" id="couleursDispo"></div>
+    </div>
+
+    <h2 class="section-title sim-title-finance"><span class="num">3</span>Récapitulatif financier</h2>
+    <div class="finance-card sim-finance-block">
+      <div class="finance-head">
+        <span id="recapProfile">CrossFLX · Prospect</span>
+        <strong id="recapModel">–</strong>
+      </div>
+      <div id="recapLines"></div>
+    </div>
+
+    <h2 class="section-title sim-title-aides"><span class="num">4</span>Remises &amp; ODR</h2>
+    <div class="aides-table-card sim-aides-block" id="aidesContainer"></div>
+
+    <h2 class="section-title sim-title-pitch"><span class="num">5</span>Arguments assurance</h2>
+    <div class="insurance-pitch sim-pitch-block">
+      <div class="pitch-zone-title"><i class="ti ti-shield"></i>Avantages</div>
+      <div class="pitch-kpi-grid">
+        <div class="pitch-kpi">
+          <i class="ti ti-tools"></i>
+          <strong id="pitchRepair">–</strong>
+          <span>Réparation de référence pour ce modèle</span>
+        </div>
+        <div class="pitch-kpi">
+          <i class="ti ti-coin"></i>
+          <strong id="pitchCostReal">–</strong>
+          <span>Coût réel après aides sur 12 mois</span>
+        </div>
+        <div class="pitch-kpi">
+          <i class="ti ti-chart-bar"></i>
+          <strong id="pitchBreakEven">1 incident</strong>
+          <span>Seuil de rentabilité dès le 1er sinistre</span>
+        </div>
+      </div>
+      <div class="year-breakdown">
+        <div>
+          <span>Prix assurance à l'année</span>
+          <strong id="yearlyGross">–</strong>
+          <em id="yearlyGrossPct">–</em>
+        </div>
+        <div class="accent">
+          <span>Aides</span>
+          <strong id="yearlyAides">–</strong>
+          <em id="yearlyAidesSub">–</em>
+        </div>
+        <div>
+          <span>Après remises</span>
+          <strong id="yearlyNet">–</strong>
+          <em id="yearlyNetSub">–</em>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<section class="tab-panel" id="tab-aide">
+  <h2 class="section-title"><span class="num">1</span>Budget client</h2>
+
+  <div class="sim-card aide-budget-card">
+    <div class="aide-card-head">
+      <span>Recherche guidée</span>
+      <strong id="aideProfileLabel">Prospect</strong>
+    </div>
+    <div class="aide-form-grid">
+      <div class="form-group aide-forfait-field">
+        <label for="budgetForfait">Forfait utilisé</label>
+        <select id="budgetForfait"></select>
+      </div>
+      <div class="form-group">
+        <label for="budgetPremier">Budget 1ᵉʳ paiement</label>
+        <input type="number" id="budgetPremier" min="0" step="1" inputmode="numeric" placeholder="ex. 150">
+      </div>
+      <div class="form-group">
+        <label for="budgetMensuel">Budget mensuel</label>
+        <input type="number" id="budgetMensuel" min="0" step="1" inputmode="decimal" placeholder="ex. 35">
+      </div>
+    </div>
+    </div>
+  </div>
+
+  <h2 class="section-title"><span class="num">2</span>Modèles recommandés</h2>
+  <div class="recommend-summary" id="recommendSummary">Entre un budget pour lancer les recommandations.</div>
+  <div class="recommend-list" id="recommendList"></div>
+</section>
+
+<div class="footer-info">
+  CrossFLX · Source tarifs : 04/06/2026 · Mis à jour le 05/06/2026 · 57 références</div>
+
+</main>
+
+<script>
+// === Password gate ===
+(function(){
+  const PWD_HASH = '992473290a5922dd232e0952a3a958519a183c2fba846f3e3aaa008e99fd582f';
+  const overlay = document.getElementById('pwdOverlay');
+  const input = document.getElementById('pwdInput');
+  const btn = document.getElementById('pwdBtn');
+  const err = document.getElementById('pwdError');
+  
+  // Si déjà déverrouillé dans cette session, on saute
+  if (sessionStorage.getItem('cf_unlocked') === '1') {
+    overlay.classList.add('hidden');
+  }
+  
+  async function sha256(text) {
+    const buf = new TextEncoder().encode(text);
+    const hash = await crypto.subtle.digest('SHA-256', buf);
+    return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2,'0')).join('');
+  }
+  
+  async function tryUnlock() {
+    const val = input.value;
+    if (!val) return;
+    const h = await sha256(val);
+    if (h === PWD_HASH) {
+      sessionStorage.setItem('cf_unlocked', '1');
+      overlay.classList.add('hidden');
+      err.innerHTML = '&nbsp;';
+    } else {
+      err.textContent = 'Mot de passe incorrect';
+      input.value = '';
+      input.focus();
+    }
+  }
+  
+  btn.addEventListener('click', tryUnlock);
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') tryUnlock();
+    if (err.textContent !== '\u00A0') err.innerHTML = '&nbsp;';
+  });
+})();
+
+const DATA = {"products":[{"libelle_complet":"Doro - Leva L30 - 0Go - Graphite","gamme":"1 Gamme START","marque":"Doro","modele":"Leva L30","capacite":"0Go","couleur":"Graphite","variante":"0Go – Graphite","prix_comptant":99,"premier_paiement":19,"premier_paiement_commande":null,"mensualite_tel":2.99,"prix_comptant_abonne":99,"premier_paiement_abonne":1,"premier_paiement_commande_abonne":null,"mensualite_tel_abonne":3.99,"option_achat_abonne":2,"odr_abonne":0,"remise_immediate_abonne":0,"debut_odr_abonne":null,"fin_odr_abonne":null,"assurance_mois":4.99,"tel_plus_assu":7.98,"option_achat":8,"odr":0,"remise_immediate":0,"debut_odr":null,"fin_odr":null,"reparation_max":70,"piece":"Écran téléphone simple","lien_produit":"https://mobile.free.fr/shop/products/doro/leva-l30","couleurs_disponibles":"Graphite","libelle_court":"Leva L30 – 0Go – Graphite","bonus_reprise":0},{"libelle_complet":"Honor - X5C Plus - 64Go - Noir","gamme":"1 Gamme START","marque":"Honor","modele":"X5C Plus","capacite":"64Go","couleur":"Noir","variante":"64Go – Noir","prix_comptant":99,"premier_paiement":19,"premier_paiement_commande":null,"mensualite_tel":2.99,"prix_comptant_abonne":99,"premier_paiement_abonne":1,"premier_paiement_commande_abonne":null,"mensualite_tel_abonne":3.99,"option_achat_abonne":2,"odr_abonne":0,"remise_immediate_abonne":0,"debut_odr_abonne":null,"fin_odr_abonne":null,"assurance_mois":4.99,"tel_plus_assu":7.98,"option_achat":8,"odr":0,"remise_immediate":0,"debut_odr":null,"fin_odr":null,"reparation_max":150,"piece":"Écran Honor milieu de gamme","lien_produit":"https://mobile.free.fr/shop/products/honor/x5c-plus","couleurs_disponibles":"Noir","libelle_court":"X5C Plus – 64Go – Noir","bonus_reprise":0},{"libelle_complet":"TCL - 60R 5G - 128Go - Noir","gamme":"1 Gamme START","marque":"TCL","modele":"60R 5G","capacite":"128Go","couleur":"Noir","variante":"128Go – Noir","prix_comptant":149,"premier_paiement":39,"premier_paiement_commande":null,"mensualite_tel":3.99,"prix_comptant_abonne":149,"premier_paiement_abonne":25,"premier_paiement_commande_abonne":null,"mensualite_tel_abonne":4.99,"option_achat_abonne":4,"odr_abonne":0,"remise_immediate_abonne":0,"debut_odr_abonne":null,"fin_odr_abonne":null,"assurance_mois":4.99,"tel_plus_assu":8.98,"option_achat":14,"odr":0,"remise_immediate":0,"debut_odr":null,"fin_odr":null,"reparation_max":90,"piece":"Écran Android entrée de gamme","lien_produit":"https://mobile.free.fr/shop/products/tcl/60r-5g","couleurs_disponibles":"Noir","libelle_court":"60R 5G – 128Go – Noir","bonus_reprise":0},{"libelle_complet":"Xiaomi - Redmi A7 Pro - 64Go - Noir","gamme":"1 Gamme START","marque":"Xiaomi","modele":"Redmi A7 Pro","capacite":"64Go","couleur":"Noir","variante":"64Go – Noir","prix_comptant":135,"premier_paiement":25,"premier_paiement_commande":null,"mensualite_tel":3.99,"prix_comptant_abonne":135,"premier_paiement_abonne":9,"premier_paiement_commande_abonne":null,"mensualite_tel_abonne":4.99,"option_achat_abonne":6,"odr_abonne":0,"remise_immediate_abonne":0,"debut_odr_abonne":null,"fin_odr_abonne":null,"assurance_mois":4.99,"tel_plus_assu":8.98,"option_achat":14,"odr":0,"remise_immediate":0,"debut_odr":null,"fin_odr":null,"reparation_max":110,"piece":"Écran Redmi entrée/milieu","lien_produit":"https://mobile.free.fr/shop/products/xiaomi/redmi-a7-pro","couleurs_disponibles":"Noir","libelle_court":"Redmi A7 Pro – 64Go – Noir","bonus_reprise":0},{"libelle_complet":"Samsung - Galaxy A16 4G - 128Go - Bleu nuit","gamme":"1 Gamme START","marque":"Samsung","modele":"Galaxy A16 4G","capacite":"128Go","couleur":"Bleu nuit","variante":"128Go – Bleu nuit","prix_comptant":172,"premier_paiement":39,"premier_paiement_commande":null,"mensualite_tel":4.99,"prix_comptant_abonne":172,"premier_paiement_abonne":19,"premier_paiement_commande_abonne":null,"mensualite_tel_abonne":5.99,"option_achat_abonne":9,"odr_abonne":0,"remise_immediate_abonne":0,"debut_odr_abonne":null,"fin_odr_abonne":null,"assurance_mois":4.99,"tel_plus_assu":9.98,"option_achat":13,"odr":0,"remise_immediate":0,"debut_odr":null,"fin_odr":null,"reparation_max":105,"piece":"Écran entrée de gamme","lien_produit":"https://mobile.free.fr/shop/products/samsung/galaxy-a16-4g","couleurs_disponibles":"Bleu nuit","libelle_court":"Galaxy A16 4G – 128Go – Bleu nuit","bonus_reprise":0},{"libelle_complet":"Certideal - iPhone 12 reconditionné Grade A - 64Go - Noir","gamme":"1 Gamme START","marque":"Certideal","modele":"iPhone 12 reconditionné Grade A","capacite":"64Go","couleur":"Noir","variante":"64Go – Noir","prix_comptant":219,"premier_paiement":79,"premier_paiement_commande":null,"mensualite_tel":4.99,"prix_comptant_abonne":219,"premier_paiement_abonne":49,"premier_paiement_commande_abonne":null,"mensualite_tel_abonne":5.99,"option_achat_abonne":26,"odr_abonne":0,"remise_immediate_abonne":0,"debut_odr_abonne":null,"fin_odr_abonne":null,"assurance_mois":13.99,"tel_plus_assu":18.98,"option_achat":20,"odr":0,"remise_immediate":0,"debut_odr":null,"fin_odr":null,"reparation_max":145,"piece":"Écran OLED iPhone reconditionné","lien_produit":"https://mobile.free.fr/shop/products/certideal/iphone-12-reconditionne-grade-a","couleurs_disponibles":"Noir","libelle_court":"iPhone 12 reconditionné Grade A – 64Go …","bonus_reprise":0},{"libelle_complet":"Xiaomi - Redmi 15C 4G - 128Go - Vert","gamme":"1 Gamme START","marque":"Xiaomi","modele":"Redmi 15C 4G","capacite":"128Go","couleur":"Vert","variante":"128Go – Vert","prix_comptant":155,"premier_paiement":25,"premier_paiement_commande":null,"mensualite_tel":4.99,"prix_comptant_abonne":155,"premier_paiement_abonne":1,"premier_paiement_commande_abonne":null,"mensualite_tel_abonne":5.99,"option_achat_abonne":10,"odr_abonne":0,"remise_immediate_abonne":0,"debut_odr_abonne":null,"fin_odr_abonne":null,"assurance_mois":4.99,"tel_plus_assu":9.98,"option_achat":10,"odr":0,"remise_immediate":0,"debut_odr":null,"fin_odr":null,"reparation_max":110,"piece":"Écran Redmi entrée/milieu","lien_produit":"https://mobile.free.fr/shop/products/xiaomi/redmi-15c-4g","couleurs_disponibles":"Vert","libelle_court":"Redmi 15C 4G – 128Go – Vert","bonus_reprise":0},{"libelle_complet":"Honor - 400 Smart 5G - 128Go - Noir","gamme":"1 Gamme START","marque":"Honor","modele":"400 Smart 5G","capacite":"128Go","couleur":"Noir","variante":"128Go – Noir","prix_comptant":179,"premier_paiement":19,"premier_paiement_commande":39,"mensualite_tel":5.99,"prix_comptant_abonne":179,"premier_paiement_abonne":1,"premier_paiement_commande_abonne":null,"mensualite_tel_abonne":6.99,"option_achat_abonne":10,"odr_abonne":0,"remise_immediate_abonne":20,"debut_odr_abonne":null,"fin_odr_abonne":null,"assurance_mois":4.99,"tel_plus_assu":10.98,"option_achat":16,"odr":20,"remise_immediate":0,"debut_odr":"2026-05-07","fin_odr":"2026-06-09","reparation_max":150,"piece":"Écran Honor milieu de gamme","lien_produit":"https://mobile.free.fr/shop/products/honor/400-smart-5g","couleurs_disponibles":"Noir","libelle_court":"400 Smart 5G – 128Go – Noir","bonus_reprise":0},{"libelle_complet":"Xiaomi - Pack Redmi 15C 5G 256Go Noir & Redmi Buds 6 Play Noir - 256Go - Noir","gamme":"1 Gamme START","marque":"Xiaomi","modele":"Pack Redmi 15C 5G 256Go Noir & Redmi Buds 6 Play Noir","capacite":"256Go","couleur":"Noir","variante":"256Go – Noir","prix_comptant":195,"premier_paiement":29,"premier_paiement_commande":49,"mensualite_tel":5.99,"prix_comptant_abonne":195,"premier_paiement_abonne":9,"premier_paiement_commande_abonne":null,"mensualite_tel_abonne":6.99,"option_achat_abonne":18,"odr_abonne":0,"remise_immediate_abonne":20,"debut_odr_abonne":null,"fin_odr_abonne":null,"assurance_mois":4.99,"tel_plus_assu":10.98,"option_achat":22,"odr":20,"remise_immediate":0,"debut_odr":"2026-05-28","fin_odr":"2026-06-09","reparation_max":110,"piece":"Écran Redmi entrée/milieu","lien_produit":"https://mobile.free.fr/shop/products/xiaomi/pack-redmi-15c-5g-&-redmi-buds-6-play","couleurs_disponibles":"Noir","libelle_court":"Pack Redmi 15C 5G 256Go Noir & Redmi Bu…","bonus_reprise":0},{"libelle_complet":"Samsung - Galaxy A17 5G - 128Go - Noir","gamme":"1 Gamme START","marque":"Samsung","modele":"Galaxy A17 5G","capacite":"128Go","couleur":"Noir","variante":"128Go – Noir","prix_comptant":202,"premier_paiement":9,"premier_paiement_commande":39,"mensualite_tel":6.99,"prix_comptant_abonne":202,"premier_paiement_abonne":1,"premier_paiement_commande_abonne":31,"mensualite_tel_abonne":6.99,"option_achat_abonne":33,"odr_abonne":30,"remise_immediate_abonne":0,"debut_odr_abonne":"2026-05-28","fin_odr_abonne":"2026-06-23","assurance_mois":4.99,"tel_plus_assu":11.98,"option_achat":25,"odr":30,"remise_immediate":0,"debut_odr":"2026-05-28","fin_odr":"2026-06-23","reparation_max":105,"piece":"Écran entrée de gamme","lien_produit":"https://mobile.free.fr/shop/products/samsung/galaxy-a17-5g","couleurs_disponibles":"Noir","libelle_court":"Galaxy A17 5G – 128Go – Noir","bonus_reprise":0},{"libelle_complet":"TCL - 5041 2025 - 0Go - Noir","gamme":"1 Gamme START","marque":"TCL","modele":"5041 2025","capacite":"0Go","couleur":"Noir","variante":"0Go – Noir","prix_comptant":36,"premier_paiement":null,"premier_paiement_commande":null,"mensualite_tel":null,"prix_comptant_abonne":36,"premier_paiement_abonne":null,"premier_paiement_commande_abonne":null,"mensualite_tel_abonne":null,"option_achat_abonne":0,"odr_abonne":0,"remise_immediate_abonne":0,"debut_odr_abonne":null,"fin_odr_abonne":null,"assurance_mois":4.99,"tel_plus_assu":4.99,"option_achat":null,"odr":0,"remise_immediate":0,"debut_odr":null,"fin_odr":null,"reparation_max":90,"piece":"Écran Android entrée de gamme","lien_produit":"https://mobile.free.fr/shop/products/tcl/5041-2025","couleurs_disponibles":"Noir","libelle_court":"5041 2025 – 0Go – Noir","bonus_reprise":0},{"libelle_complet":"Xiaomi - Redmi Note 15 5G - 256Go - Noir","gamme":"2 Gamme SMART","marque":"Xiaomi","modele":"Redmi Note 15 5G","capacite":"256Go","couleur":"Noir","variante":"256Go – Noir","prix_comptant":275,"premier_paiement":49,"premier_paiement_commande":79,"mensualite_tel":7.99,"prix_comptant_abonne":275,"premier_paiement_abonne":1,"premier_paiement_commande_abonne":31,"mensualite_tel_abonne":9.99,"option_achat_abonne":34,"odr_abonne":30,"remise_immediate_abonne":0,"debut_odr_abonne":"2026-04-30","fin_odr_abonne":"2026-06-09","assurance_mois":8.99,"tel_plus_assu":16.98,"option_achat":34,"odr":30,"remise_immediate":0,"debut_odr":"2026-04-30","fin_odr":"2026-06-09","reparation_max":150,"piece":"Écran Redmi Note récent","lien_produit":"https://mobile.free.fr/shop/products/xiaomi/redmi-note-15-5g","couleurs_disponibles":"Noir","libelle_court":"Redmi Note 15 5G – 256Go – Noir","bonus_reprise":0},{"libelle_complet":"Samsung - Galaxy A26 5G - 128Go - Noir","gamme":"2 Gamme SMART","marque":"Samsung","modele":"Galaxy A26 5G","capacite":"128Go","couleur":"Noir","variante":"128Go – Noir","prix_comptant":252,"premier_paiement":1,"premier_paiement_commande":71,"mensualite_tel":8.99,"prix_comptant_abonne":252,"premier_paiement_abonne":1,"premier_paiement_commande_abonne":21,"mensualite_tel_abonne":8.99,"option_achat_abonne":35,"odr_abonne":20,"remise_immediate_abonne":50,"debut_odr_abonne":"2026-05-28","fin_odr_abonne":"2026-06-23","assurance_mois":8.99,"tel_plus_assu":17.98,"option_achat":35,"odr":70,"remise_immediate":0,"debut_odr":"2026-05-28","fin_odr":"2026-06-23","reparation_max":165,"piece":"Écran AMOLED milieu de gamme","lien_produit":"https://mobile.free.fr/shop/products/samsung/galaxy-a26-5g","couleurs_disponibles":"Noir","libelle_court":"Galaxy A26 5G – 128Go – Noir","bonus_reprise":0},{"libelle_complet":"Certideal - iPhone 12 Pro reconditionné Grade A - 128Go - Graphite","gamme":"2 Gamme SMART","marque":"Certideal","modele":"iPhone 12 Pro reconditionné Grade A","capacite":"128Go","couleur":"Graphite","variante":"128Go – Graphite","prix_comptant":329,"premier_paiement":89,"premier_paiement_commande":null,"mensualite_tel":8.99,"prix_comptant_abonne":329,"premier_paiement_abonne":39,"premier_paiement_commande_abonne":null,"mensualite_tel_abonne":10.99,"option_achat_abonne":26,"odr_abonne":0,"remise_immediate_abonne":0,"debut_odr_abonne":null,"fin_odr_abonne":null,"assurance_mois":14.99,"tel_plus_assu":23.98,"option_achat":24,"odr":0,"remise_immediate":0,"debut_odr":null,"fin_odr":null,"reparation_max":390,"piece":"Écran OLED Pro","lien_produit":"https://mobile.free.fr/shop/products/certideal/iphone-12-pro-reconditionne-grade-a","couleurs_disponibles":"Graphite","libelle_court":"iPhone 12 Pro reconditionné Grade A – 1…","bonus_reprise":0},{"libelle_complet":"Honor - 600 Lite - 256Go - Noir / Vert","gamme":"2 Gamme SMART","marque":"Honor","modele":"600 Lite","capacite":"256Go","couleur":"Noir / Vert","variante":"256Go – Noir +1","prix_comptant":249,"premier_paiement":1,"premier_paiement_commande":91,"mensualite_tel":8.99,"prix_comptant_abonne":249,"premier_paiement_abonne":1,"premier_paiement_commande_abonne":41,"mensualite_tel_abonne":8.99,"option_achat_abonne":32,"odr_abonne":40,"remise_immediate_abonne":50,"debut_odr_abonne":"2026-05-07","fin_odr_abonne":"2026-06-09","assurance_mois":8.99,"tel_plus_assu":17.98,"option_achat":32,"odr":90,"remise_immediate":0,"debut_odr":"2026-05-07","fin_odr":"2026-06-09","reparation_max":200,"piece":"Écran Honor milieu/haut de gamme","lien_produit":"https://mobile.free.fr/shop/products/honor/600-lite","couleurs_disponibles":"Noir, Vert","libelle_court":"600 Lite – 256Go – Noir +1","bonus_reprise":0},{"libelle_complet":"Certideal - iPhone 13 reconditionné Grade A - 128Go - Noir Minuit","gamme":"2 Gamme SMART","marque":"Certideal","modele":"iPhone 13 reconditionné Grade A","capacite":"128Go","couleur":"Noir Minuit","variante":"128Go – Noir Minuit","prix_comptant":349,"premier_paiement":89,"premier_paiement_commande":109,"mensualite_tel":9.99,"prix_comptant_abonne":349,"premier_paiement_abonne":29,"premier_paiement_commande_abonne":49,"mensualite_tel_abonne":11.99,"option_achat_abonne":32,"odr_abonne":20,"remise_immediate_abonne":0,"debut_odr_abonne":"2026-05-28","fin_odr_abonne":"2026-06-23","assurance_mois":13.99,"tel_plus_assu":23.98,"option_achat":20,"odr":20,"remise_immediate":0,"debut_odr":"2026-05-28","fin_odr":"2026-06-23","reparation_max":180,"piece":"Écran OLED iPhone reconditionné","lien_produit":"https://mobile.free.fr/shop/products/certideal/iphone-13-reconditionne-grade-a","couleurs_disponibles":"Noir Minuit","libelle_court":"iPhone 13 reconditionné Grade A – 128Go…","bonus_reprise":0},{"libelle_complet":"Certideal - iPhone 14  Reconditionné Grade A - 128Go - Noir minuit","gamme":"3 Gamme PERF","marque":"Certideal","modele":"iPhone 14  Reconditionné Grade A","capacite":"128Go","couleur":"Noir minuit","variante":"128Go – Noir minuit","prix_comptant":409,"premier_paiement":119,"premier_paiement_commande":null,"mensualite_tel":10.99,"prix_comptant_abonne":409,"premier_paiement_abonne":59,"premier_paiement_commande_abonne":null,"mensualite_tel_abonne":12.99,"option_achat_abonne":38,"odr_abonne":0,"remise_immediate_abonne":0,"debut_odr_abonne":null,"fin_odr_abonne":null,"assurance_mois":13.99,"tel_plus_assu":24.98,"option_achat":26,"odr":0,"remise_immediate":0,"debut_odr":null,"fin_odr":null,"reparation_max":215,"piece":"Écran OLED iPhone","lien_produit":"https://mobile.free.fr/shop/products/certideal/iphone-14-reconditionne-grade-a","couleurs_disponibles":"Noir minuit","libelle_court":"iPhone 14  Reconditionné Grade A – 128G…","bonus_reprise":0},{"libelle_complet":"Honor - Pack Magic8Lite & Choice Earbuds X8i - 256Go - Noir","gamme":"3 Gamme PERF","marque":"Honor","modele":"Pack Magic8Lite & Choice Earbuds X8i","capacite":"256Go","couleur":"Noir","variante":"256Go – Noir","prix_comptant":299,"premier_paiement":1,"premier_paiement_commande":101,"mensualite_tel":10.99,"prix_comptant_abonne":299,"premier_paiement_abonne":1,"premier_paiement_commande_abonne":51,"mensualite_tel_abonne":10.99,"option_achat_abonne":34,"odr_abonne":50,"remise_immediate_abonne":50,"debut_odr_abonne":"2026-04-30","fin_odr_abonne":"2026-06-09","assurance_mois":8.99,"tel_plus_assu":19.98,"option_achat":34,"odr":100,"remise_immediate":0,"debut_odr":"2026-04-30","fin_odr":"2026-06-09","reparation_max":200,"piece":"Écran Honor milieu/haut de gamme","lien_produit":"https://mobile.free.fr/shop/products/honor/pack-magic8-lite-5g-&-choice-earbuds-x8i","couleurs_disponibles":"Noir","libelle_court":"Pack Magic8Lite & Choice Earbuds X8i – …","bonus_reprise":0},{"libelle_complet":"Xiaomi - Pack Redmi Note 15 Pro 5G & Band10 - 256Go - Noir","gamme":"3 Gamme PERF","marque":"Xiaomi","modele":"Pack Redmi Note 15 Pro 5G & Band10","capacite":"256Go","couleur":"Noir","variante":"256Go – Noir","prix_comptant":405,"premier_paiement":109,"premier_paiement_commande":null,"mensualite_tel":10.99,"prix_comptant_abonne":405,"premier_paiement_abonne":59,"premier_paiement_commande_abonne":null,"mensualite_tel_abonne":12.99,"option_achat_abonne":34,"odr_abonne":0,"remise_immediate_abonne":0,"debut_odr_abonne":null,"fin_odr_abonne":null,"assurance_mois":12.99,"tel_plus_assu":23.98,"option_achat":32,"odr":0,"remise_immediate":0,"debut_odr":null,"fin_odr":null,"reparation_max":210,"piece":"Écran AMOLED Redmi Pro","lien_produit":"https://mobile.free.fr/shop/products/xiaomi/pack-redmi-note-15-pro-5g-&-smart-band-10","couleurs_disponibles":"Noir","libelle_court":"Pack Redmi Note 15 Pro 5G & Band10 – 25…","bonus_reprise":0},{"libelle_complet":"Certideal - iPhone 13 Pro reconditionné Grade A - 128Go - Graphite","gamme":"3 Gamme PERF","marque":"Certideal","modele":"iPhone 13 Pro reconditionné Grade A","capacite":"128Go","couleur":"Graphite","variante":"128Go – Graphite","prix_comptant":429,"premier_paiement":109,"premier_paiement_commande":129,"mensualite_tel":11.99,"prix_comptant_abonne":429,"premier_paiement_abonne":49,"premier_paiement_commande_abonne":69,"mensualite_tel_abonne":13.99,"option_achat_abonne":44,"odr_abonne":20,"remise_immediate_abonne":0,"debut_odr_abonne":"2026-05-28","fin_odr_abonne":"2026-06-23","assurance_mois":14.99,"tel_plus_assu":26.98,"option_achat":32,"odr":20,"remise_immediate":0,"debut_odr":"2026-05-28","fin_odr":"2026-06-23","reparation_max":390,"piece":"Écran OLED Pro","lien_produit":"https://mobile.free.fr/shop/products/certideal/iphone-13-pro-reconditionne-grade-a","couleurs_disponibles":"Graphite","libelle_court":"iPhone 13 Pro reconditionné Grade A – 1…","bonus_reprise":0},{"libelle_complet":"Xiaomi - Redmi Note 15 Pro 5G - 256Go - Bleu / Gris","gamme":"3 Gamme PERF","marque":"Xiaomi","modele":"Redmi Note 15 Pro 5G","capacite":"256Go","couleur":"Bleu / Gris","variante":"256Go – Bleu +1","prix_comptant":405,"premier_paiement":79,"premier_paiement_commande":null,"mensualite_tel":11.99,"prix_comptant_abonne":405,"premier_paiement_abonne":39,"premier_paiement_commande_abonne":null,"mensualite_tel_abonne":13.99,"option_achat_abonne":30,"odr_abonne":0,"remise_immediate_abonne":0,"debut_odr_abonne":null,"fin_odr_abonne":null,"assurance_mois":12.99,"tel_plus_assu":24.98,"option_achat":38,"odr":0,"remise_immediate":0,"debut_odr":null,"fin_odr":null,"reparation_max":210,"piece":"Écran AMOLED Redmi Pro","lien_produit":"https://mobile.free.fr/shop/products/xiaomi/redmi-note-15-pro-5g","couleurs_disponibles":"Bleu, Gris","libelle_court":"Redmi Note 15 Pro 5G – 256Go – Bleu +1","bonus_reprise":0},{"libelle_complet":"Samsung - Galaxy A37 5G - 128Go - Graphite","gamme":"3 Gamme PERF","marque":"Samsung","modele":"Galaxy A37 5G","capacite":"128Go","couleur":"Graphite","variante":"128Go – Graphite","prix_comptant":402,"premier_paiement":39,"premier_paiement_commande":89,"mensualite_tel":12.99,"prix_comptant_abonne":402,"premier_paiement_abonne":1,"premier_paiement_commande_abonne":51,"mensualite_tel_abonne":14.99,"option_achat_abonne":41,"odr_abonne":50,"remise_immediate_abonne":0,"debut_odr_abonne":"2026-05-21","fin_odr_abonne":"2026-06-23","assurance_mois":12.99,"tel_plus_assu":25.98,"option_achat":51,"odr":50,"remise_immediate":0,"debut_odr":"2026-05-21","fin_odr":"2026-06-23","reparation_max":165,"piece":"Écran AMOLED milieu de gamme","lien_produit":"https://mobile.free.fr/shop/products/samsung/galaxy-a37-5g","couleurs_disponibles":"Graphite","libelle_court":"Galaxy A37 5G – 128Go – Graphite","bonus_reprise":50},{"libelle_complet":"Certideal - iPhone 13 Pro Max reconditionné Grade A - 128Go - Graphite","gamme":"3 Gamme PERF","marque":"Certideal","modele":"iPhone 13 Pro Max reconditionné Grade A","capacite":"128Go","couleur":"Graphite","variante":"128Go – Graphite","prix_comptant":509,"premier_paiement":129,"premier_paiement_commande":null,"mensualite_tel":13.99,"prix_comptant_abonne":509,"premier_paiement_abonne":69,"premier_paiement_commande_abonne":null,"mensualite_tel_abonne":15.99,"option_achat_abonne":56,"odr_abonne":0,"remise_immediate_abonne":0,"debut_odr_abonne":null,"fin_odr_abonne":null,"assurance_mois":14.99,"tel_plus_assu":28.98,"option_achat":44,"odr":0,"remise_immediate":0,"debut_odr":null,"fin_odr":null,"reparation_max":420,"piece":"Écran OLED grand format / Pro Max","lien_produit":"https://mobile.free.fr/shop/products/certideal/iphone-13-pro-max-reconditionne-grade-a","couleurs_disponibles":"Graphite","libelle_court":"iPhone 13 Pro Max reconditionné Grade A…","bonus_reprise":0},{"libelle_complet":"Xiaomi - Redmi Note 15 Pro + 5G - 256Go - Noir","gamme":"3 Gamme PERF","marque":"Xiaomi","modele":"Redmi Note 15 Pro + 5G","capacite":"256Go","couleur":"Noir","variante":"256Go – Noir","prix_comptant":385,"premier_paiement":1,"premier_paiement_commande":121,"mensualite_tel":13.99,"prix_comptant_abonne":385,"premier_paiement_abonne":1,"premier_paiement_commande_abonne":51,"mensualite_tel_abonne":13.99,"option_achat_abonne":48,"odr_abonne":50,"remise_immediate_abonne":70,"debut_odr_abonne":"2026-05-28","fin_odr_abonne":"2026-06-09","assurance_mois":12.99,"tel_plus_assu":26.98,"option_achat":48,"odr":120,"remise_immediate":0,"debut_odr":"2026-05-28","fin_odr":"2026-06-09","reparation_max":210,"piece":"Écran AMOLED Redmi Pro","lien_produit":"https://mobile.free.fr/shop/products/xiaomi/redmi-note-15-pro+-5g","couleurs_disponibles":"Noir","libelle_court":"Redmi Note 15 Pro + 5G – 256Go – Noir","bonus_reprise":0},{"libelle_complet":"Samsung - Galaxy A57 5G - 128Go - Lavande","gamme":"3 Gamme PERF","marque":"Samsung","modele":"Galaxy A57 5G","capacite":"128Go","couleur":"Lavande","variante":"128Go – Lavande","prix_comptant":502,"premier_paiement":79,"premier_paiement_commande":129,"mensualite_tel":14.99,"prix_comptant_abonne":502,"premier_paiement_abonne":29,"premier_paiement_commande_abonne":79,"mensualite_tel_abonne":16.99,"option_achat_abonne":65,"odr_abonne":50,"remise_immediate_abonne":0,"debut_odr_abonne":"2026-05-21","fin_odr_abonne":"2026-06-23","assurance_mois":12.99,"tel_plus_assu":27.98,"option_achat":63,"odr":50,"remise_immediate":0,"debut_odr":"2026-05-21","fin_odr":"2026-06-23","reparation_max":165,"piece":"Écran AMOLED milieu de gamme","lien_produit":"https://mobile.free.fr/shop/products/samsung/galaxy-a57-5g","couleurs_disponibles":"Lavande","libelle_court":"Galaxy A57 5G – 128Go – Lavande","bonus_reprise":50},{"libelle_complet":"Samsung - Pack Galaxy A57 5G & Fit3 - 128Go - Bleu","gamme":"3 Gamme PERF","marque":"Samsung","modele":"Pack Galaxy A57 5G & Fit3","capacite":"128Go","couleur":"Bleu","variante":"128Go – Bleu","prix_comptant":502,"premier_paiement":79,"premier_paiement_commande":129,"mensualite_tel":14.99,"prix_comptant_abonne":502,"premier_paiement_abonne":29,"premier_paiement_commande_abonne":79,"mensualite_tel_abonne":16.99,"option_achat_abonne":65,"odr_abonne":50,"remise_immediate_abonne":0,"debut_odr_abonne":"2026-05-21","fin_odr_abonne":"2026-06-23","assurance_mois":12.99,"tel_plus_assu":27.98,"option_achat":63,"odr":50,"remise_immediate":0,"debut_odr":"2026-05-21","fin_odr":"2026-06-23","reparation_max":165,"piece":"Écran AMOLED milieu de gamme","lien_produit":"https://mobile.free.fr/shop/products/samsung/pack-galaxy-a57-5g-&-fit-3","couleurs_disponibles":"Bleu","libelle_court":"Pack Galaxy A57 5G & Fit3 – 128Go – Bleu","bonus_reprise":50},{"libelle_complet":"Google - Pack Pixel 10A & Pixel Buds 2a - 128Go - Noir","gamme":"3 Gamme PERF","marque":"Google","modele":"Pack Pixel 10A & Pixel Buds 2a","capacite":"128Go","couleur":"Noir","variante":"128Go – Noir","prix_comptant":549,"premier_paiement":129,"premier_paiement_commande":null,"mensualite_tel":14.99,"prix_comptant_abonne":549,"premier_paiement_abonne":79,"premier_paiement_commande_abonne":null,"mensualite_tel_abonne":16.99,"option_achat_abonne":62,"odr_abonne":0,"remise_immediate_abonne":0,"debut_odr_abonne":null,"fin_odr_abonne":null,"assurance_mois":12.99,"tel_plus_assu":27.98,"option_achat":60,"odr":0,"remise_immediate":0,"debut_odr":null,"fin_odr":null,"reparation_max":230,"piece":"Écran OLED Pixel","lien_produit":"https://mobile.free.fr/shop/products/google/pack-pixel-10a-&-pixel-buds-2a","couleurs_disponibles":"Noir","libelle_court":"Pack Pixel 10A & Pixel Buds 2a – 128Go …","bonus_reprise":0},{"libelle_complet":"Xiaomi - 14T - 256Go - Noir","gamme":"3 Gamme PERF","marque":"Xiaomi","modele":"14T","capacite":"256Go","couleur":"Noir","variante":"256Go – Noir","prix_comptant":445,"premier_paiement":1,"premier_paiement_commande":101,"mensualite_tel":15.99,"prix_comptant_abonne":445,"premier_paiement_abonne":1,"premier_paiement_commande_abonne":41,"mensualite_tel_abonne":15.99,"option_achat_abonne":60,"odr_abonne":40,"remise_immediate_abonne":100,"debut_odr_abonne":"2026-04-30","fin_odr_abonne":"2026-07-01","assurance_mois":12.99,"tel_plus_assu":28.98,"option_achat":60,"odr":100,"remise_immediate":40,"debut_odr":"2026-04-30","fin_odr":"2026-07-01","reparation_max":265,"piece":"Écran Xiaomi haut de gamme","lien_produit":"https://mobile.free.fr/shop/products/xiaomi/14t","couleurs_disponibles":"Noir","libelle_court":"14T – 256Go – Noir","bonus_reprise":0},{"libelle_complet":"Honor - 400 5G - 512Go - Noir","gamme":"3 Gamme PERF","marque":"Honor","modele":"400 5G","capacite":"512Go","couleur":"Noir","variante":"512Go – Noir","prix_comptant":579,"premier_paiement":129,"premier_paiement_commande":null,"mensualite_tel":15.99,"prix_comptant_abonne":579,"premier_paiement_abonne":79,"premier_paiement_commande_abonne":null,"mensualite_tel_abonne":17.99,"option_achat_abonne":68,"odr_abonne":0,"remise_immediate_abonne":0,"debut_odr_abonne":null,"fin_odr_abonne":null,"assurance_mois":12.99,"tel_plus_assu":28.98,"option_achat":66,"odr":0,"remise_immediate":0,"debut_odr":null,"fin_odr":null,"reparation_max":200,"piece":"Écran Honor milieu/haut de gamme","lien_produit":"https://mobile.free.fr/shop/products/honor/400-5g","couleurs_disponibles":"Noir","libelle_court":"400 5G – 512Go – Noir","bonus_reprise":0},{"libelle_complet":"Honor - 600 5G - 256Go - Noir","gamme":"3 Gamme PERF","marque":"Honor","modele":"600 5G","capacite":"256Go","couleur":"Noir","variante":"256Go – Noir","prix_comptant":449,"premier_paiement":1,"premier_paiement_commande":131,"mensualite_tel":15.99,"prix_comptant_abonne":449,"premier_paiement_abonne":1,"premier_paiement_commande_abonne":61,"mensualite_tel_abonne":15.99,"option_achat_abonne":64,"odr_abonne":60,"remise_immediate_abonne":70,"debut_odr_abonne":"2026-04-30","fin_odr_abonne":"2026-06-09","assurance_mois":13.99,"tel_plus_assu":29.98,"option_achat":64,"odr":130,"remise_immediate":0,"debut_odr":"2026-04-30","fin_odr":"2026-06-09","reparation_max":200,"piece":"Écran Honor milieu/haut de gamme","lien_produit":"https://mobile.free.fr/shop/products/honor/600-5g","couleurs_disponibles":"Noir","libelle_court":"600 5G – 256Go – Noir","bonus_reprise":0},{"libelle_complet":"Apple - iPhone 16e - 128Go - Noir","gamme":"3 Gamme PERF","marque":"Apple","modele":"iPhone 16e","capacite":"128Go","couleur":"Noir","variante":"128Go – Noir","prix_comptant":599,"premier_paiement":139,"premier_paiement_commande":189,"mensualite_tel":15.99,"prix_comptant_abonne":599,"premier_paiement_abonne":69,"premier_paiement_commande_abonne":119,"mensualite_tel_abonne":18.99,"option_achat_abonne":74,"odr_abonne":50,"remise_immediate_abonne":0,"debut_odr_abonne":"2026-05-28","fin_odr_abonne":"2026-06-23","assurance_mois":13.99,"tel_plus_assu":29.98,"option_achat":76,"odr":50,"remise_immediate":0,"debut_odr":"2026-05-28","fin_odr":"2026-06-23","reparation_max":330,"piece":"Écran OLED iPhone récent","lien_produit":"https://mobile.free.fr/shop/products/apple/iphone-16e","couleurs_disponibles":"Noir","libelle_court":"iPhone 16e – 128Go – Noir","bonus_reprise":0},{"libelle_complet":"Certideal - iPhone 14  Pro Max Reconditionné Grade A - 128Go - Noir","gamme":"3 Gamme PERF","marque":"Certideal","modele":"iPhone 14  Pro Max Reconditionné Grade A","capacite":"128Go","couleur":"Noir","variante":"128Go – Noir","prix_comptant":659,"premier_paiement":179,"premier_paiement_commande":null,"mensualite_tel":16.99,"prix_comptant_abonne":659,"premier_paiement_abonne":129,"premier_paiement_commande_abonne":null,"mensualite_tel_abonne":18.99,"option_achat_abonne":74,"odr_abonne":0,"remise_immediate_abonne":0,"debut_odr_abonne":null,"fin_odr_abonne":null,"assurance_mois":13.99,"tel_plus_assu":30.98,"option_achat":72,"odr":0,"remise_immediate":0,"debut_odr":null,"fin_odr":null,"reparation_max":420,"piece":"Écran OLED grand format / Pro Max","lien_produit":"https://mobile.free.fr/shop/products/certideal/iphone-14-pro-max-reconditionne-grade-a","couleurs_disponibles":"Noir","libelle_court":"iPhone 14  Pro Max Reconditionné Grade …","bonus_reprise":0},{"libelle_complet":"Certideal - iPhone 14  Pro Reconditionné Grade A - 128Go - Noir","gamme":"3 Gamme PERF","marque":"Certideal","modele":"iPhone 14  Pro Reconditionné Grade A","capacite":"128Go","couleur":"Noir","variante":"128Go – Noir","prix_comptant":619,"premier_paiement":139,"premier_paiement_commande":169,"mensualite_tel":16.99,"prix_comptant_abonne":619,"premier_paiement_abonne":89,"premier_paiement_commande_abonne":119,"mensualite_tel_abonne":18.99,"option_achat_abonne":74,"odr_abonne":30,"remise_immediate_abonne":0,"debut_odr_abonne":"2026-05-28","fin_odr_abonne":"2026-06-23","assurance_mois":13.99,"tel_plus_assu":30.98,"option_achat":72,"odr":30,"remise_immediate":0,"debut_odr":"2026-05-28","fin_odr":"2026-06-23","reparation_max":390,"piece":"Écran OLED Pro","lien_produit":"https://mobile.free.fr/shop/products/certideal/iphone-14-pro-reconditionne-grade-a","couleurs_disponibles":"Noir","libelle_court":"iPhone 14  Pro Reconditionné Grade A – …","bonus_reprise":0},{"libelle_complet":"Xiaomi - 15T - 256Go - Gris","gamme":"3 Gamme PERF","marque":"Xiaomi","modele":"15T","capacite":"256Go","couleur":"Gris","variante":"256Go – Gris","prix_comptant":649,"premier_paiement":139,"premier_paiement_commande":null,"mensualite_tel":17.99,"prix_comptant_abonne":649,"premier_paiement_abonne":89,"premier_paiement_commande_abonne":null,"mensualite_tel_abonne":19.99,"option_achat_abonne":80,"odr_abonne":0,"remise_immediate_abonne":0,"debut_odr_abonne":null,"fin_odr_abonne":null,"assurance_mois":13.99,"tel_plus_assu":31.98,"option_achat":78,"odr":0,"remise_immediate":0,"debut_odr":null,"fin_odr":null,"reparation_max":265,"piece":"Écran Xiaomi haut de gamme","lien_produit":"https://mobile.free.fr/shop/products/xiaomi/15t","couleurs_disponibles":"Gris","libelle_court":"15T – 256Go – Gris","bonus_reprise":0},{"libelle_complet":"Apple - iPhone 15 - 128Go - Noir / Rose / Bleu","gamme":"3 Gamme PERF","marque":"Apple","modele":"iPhone 15","capacite":"128Go","couleur":"Noir / Rose / Bleu","variante":"128Go – Noir +2","prix_comptant":699,"premier_paiement":159,"premier_paiement_commande":209,"mensualite_tel":18.99,"prix_comptant_abonne":699,"premier_paiement_abonne":79,"premier_paiement_commande_abonne":129,"mensualite_tel_abonne":21.99,"option_achat_abonne":92,"odr_abonne":50,"remise_immediate_abonne":0,"debut_odr_abonne":"2026-05-28","fin_odr_abonne":"2026-06-23","assurance_mois":13.99,"tel_plus_assu":32.98,"option_achat":84,"odr":50,"remise_immediate":0,"debut_odr":"2026-05-28","fin_odr":"2026-06-23","reparation_max":285,"piece":"Écran OLED iPhone","lien_produit":"https://mobile.free.fr/shop/products/apple/iphone-15","couleurs_disponibles":"Noir, Rose, Bleu","libelle_court":"iPhone 15 – 128Go – Noir +2","bonus_reprise":0},{"libelle_complet":"Apple - iPhone 17e - 256Go - Noir /Rose pastel","gamme":"3 Gamme PERF","marque":"Apple","modele":"iPhone 17e","capacite":"256Go","couleur":"Noir /Rose pastel","variante":"256Go – Noir +1","prix_comptant":709,"premier_paiement":169,"premier_paiement_commande":219,"mensualite_tel":18.99,"prix_comptant_abonne":709,"premier_paiement_abonne":89,"premier_paiement_commande_abonne":139,"mensualite_tel_abonne":21.99,"option_achat_abonne":92,"odr_abonne":50,"remise_immediate_abonne":0,"debut_odr_abonne":"2026-05-28","fin_odr_abonne":"2026-06-23","assurance_mois":13.99,"tel_plus_assu":32.98,"option_achat":84,"odr":50,"remise_immediate":0,"debut_odr":"2026-05-28","fin_odr":"2026-06-23","reparation_max":380,"piece":"Écran OLED iPhone récent","lien_produit":"https://mobile.free.fr/shop/products/apple/iphone-17e","couleurs_disponibles":"Noir, Rose pastel","libelle_court":"iPhone 17e – 256Go – Noir +1","bonus_reprise":0},{"libelle_complet":"Samsung - Galaxy S25 FE - 128Go - Noir / Bleu nuit","gamme":"4 Gamme PREMIUM","marque":"Samsung","modele":"Galaxy S25 FE","capacite":"128Go","couleur":"Noir / Bleu nuit","variante":"128Go – Noir +1","prix_comptant":749,"premier_paiement":179,"premier_paiement_commande":null,"mensualite_tel":19.99,"prix_comptant_abonne":749,"premier_paiement_abonne":99,"premier_paiement_commande_abonne":null,"mensualite_tel_abonne":22.99,"option_achat_abonne":98,"odr_abonne":0,"remise_immediate_abonne":0,"debut_odr_abonne":null,"fin_odr_abonne":null,"assurance_mois":13.99,"tel_plus_assu":33.98,"option_achat":90,"odr":0,"remise_immediate":0,"debut_odr":null,"fin_odr":null,"reparation_max":230,"piece":"Écran AMOLED haut de gamme","lien_produit":"https://mobile.free.fr/shop/products/samsung/galaxy-s25-fe","couleurs_disponibles":"Noir, Bleu nuit","libelle_court":"Galaxy S25 FE – 128Go – Noir +1","bonus_reprise":200},{"libelle_complet":"Motorola - Razr 60 - 256Go - Bleu marine","gamme":"4 Gamme PREMIUM","marque":"Motorola","modele":"Razr 60","capacite":"256Go","couleur":"Bleu marine","variante":"256Go – Bleu marine","prix_comptant":599,"premier_paiement":29,"premier_paiement_commande":179,"mensualite_tel":19.99,"prix_comptant_abonne":599,"premier_paiement_abonne":1,"premier_paiement_commande_abonne":101,"mensualite_tel_abonne":20.99,"option_achat_abonne":94,"odr_abonne":100,"remise_immediate_abonne":50,"debut_odr_abonne":"2026-05-28","fin_odr_abonne":"2026-06-23","assurance_mois":13.99,"tel_plus_assu":33.98,"option_achat":90,"odr":150,"remise_immediate":0,"debut_odr":"2026-05-28","fin_odr":"2026-06-23","reparation_max":450,"piece":"Écran pliable interne","lien_produit":"https://mobile.free.fr/shop/products/motorola/razr-60","couleurs_disponibles":"Bleu marine","libelle_court":"Razr 60 – 256Go – Bleu marine","bonus_reprise":0},{"libelle_complet":"Xiaomi - 17T - 256Go - Noir","gamme":"4 Gamme PREMIUM","marque":"Xiaomi","modele":"17T","capacite":"256Go","couleur":"Noir","variante":"256Go – Noir","prix_comptant":569,"premier_paiement":1,"premier_paiement_commande":181,"mensualite_tel":19.99,"prix_comptant_abonne":569,"premier_paiement_abonne":1,"premier_paiement_commande_abonne":81,"mensualite_tel_abonne":19.99,"option_achat_abonne":88,"odr_abonne":80,"remise_immediate_abonne":100,"debut_odr_abonne":"2026-05-28","fin_odr_abonne":"2026-06-23","assurance_mois":13.99,"tel_plus_assu":33.98,"option_achat":88,"odr":180,"remise_immediate":0,"debut_odr":"2026-05-28","fin_odr":"2026-06-23","reparation_max":265,"piece":"Écran Xiaomi haut de gamme","lien_produit":"https://mobile.free.fr/shop/products/xiaomi/17t","couleurs_disponibles":"Noir","libelle_court":"17T – 256Go – Noir","bonus_reprise":0},{"libelle_complet":"Apple - iPhone 16 - 128Go - Noir /Sarcelle","gamme":"4 Gamme PREMIUM","marque":"Apple","modele":"iPhone 16","capacite":"128Go","couleur":"Noir /Sarcelle","variante":"128Go – Noir +1","prix_comptant":849,"premier_paiement":249,"premier_paiement_commande":299,"mensualite_tel":20.99,"prix_comptant_abonne":849,"premier_paiement_abonne":1,"premier_paiement_commande_abonne":51,"mensualite_tel_abonne":30.99,"option_achat_abonne":104,"odr_abonne":50,"remise_immediate_abonne":0,"debut_odr_abonne":"2026-05-28","fin_odr_abonne":"2026-06-23","assurance_mois":14.99,"tel_plus_assu":35.98,"option_achat":96,"odr":50,"remise_immediate":0,"debut_odr":"2026-05-28","fin_odr":"2026-06-23","reparation_max":330,"piece":"Écran OLED iPhone récent","lien_produit":"https://mobile.free.fr/shop/products/apple/iphone-16","couleurs_disponibles":"Noir, Sarcelle","libelle_court":"iPhone 16 – 128Go – Noir +1","bonus_reprise":0},{"libelle_complet":"Apple - iPhone 16 Plus - 128Go - Noir","gamme":"4 Gamme PREMIUM","marque":"Apple","modele":"iPhone 16 Plus","capacite":"128Go","couleur":"Noir","variante":"128Go – Noir","prix_comptant":949,"premier_paiement":319,"premier_paiement_commande":369,"mensualite_tel":21.99,"prix_comptant_abonne":949,"premier_paiement_abonne":219,"premier_paiement_commande_abonne":269,"mensualite_tel_abonne":25.99,"option_achat_abonne":106,"odr_abonne":50,"remise_immediate_abonne":0,"debut_odr_abonne":"2026-05-28","fin_odr_abonne":"2026-06-23","assurance_mois":14.99,"tel_plus_assu":36.98,"option_achat":102,"odr":50,"remise_immediate":0,"debut_odr":"2026-05-28","fin_odr":"2026-06-23","reparation_max":330,"piece":"Écran OLED iPhone récent","lien_produit":"https://mobile.free.fr/shop/products/apple/iphone-16","couleurs_disponibles":"Noir","libelle_court":"iPhone 16 Plus – 128Go – Noir","bonus_reprise":0},{"libelle_complet":"Apple - iPhone 17 - 256Go - Noir / Brume / Lavande / Sauge","gamme":"4 Gamme PREMIUM","marque":"Apple","modele":"iPhone 17","capacite":"256Go","couleur":"Noir / Brume / Lavande / Sauge","variante":"256Go – Noir +3","prix_comptant":949,"premier_paiement":319,"premier_paiement_commande":369,"mensualite_tel":21.99,"prix_comptant_abonne":949,"premier_paiement_abonne":49,"premier_paiement_commande_abonne":99,"mensualite_tel_abonne":32.99,"option_achat_abonne":108,"odr_abonne":50,"remise_immediate_abonne":0,"debut_odr_abonne":"2026-05-28","fin_odr_abonne":"2026-06-23","assurance_mois":14.99,"tel_plus_assu":36.98,"option_achat":102,"odr":50,"remise_immediate":0,"debut_odr":"2026-05-28","fin_odr":"2026-06-23","reparation_max":380,"piece":"Écran OLED iPhone récent","lien_produit":"https://mobile.free.fr/shop/products/apple/iphone-17","couleurs_disponibles":"Noir, Brume, Lavande, Sauge","libelle_court":"iPhone 17 – 256Go – Noir +3","bonus_reprise":0},{"libelle_complet":"Apple - iPhone Air - 256Go - Bleu ciel","gamme":"4 Gamme PREMIUM","marque":"Apple","modele":"iPhone Air","capacite":"256Go","couleur":"Bleu ciel","variante":"256Go – Bleu ciel","prix_comptant":949,"premier_paiement":289,"premier_paiement_commande":339,"mensualite_tel":22.99,"prix_comptant_abonne":949,"premier_paiement_abonne":179,"premier_paiement_commande_abonne":229,"mensualite_tel_abonne":27.99,"option_achat_abonne":98,"odr_abonne":50,"remise_immediate_abonne":110,"debut_odr_abonne":"2026-05-28","fin_odr_abonne":"2026-06-23","assurance_mois":16.99,"tel_plus_assu":39.98,"option_achat":108,"odr":50,"remise_immediate":110,"debut_odr":"2026-05-28","fin_odr":"2026-06-23","reparation_max":380,"piece":"Écran OLED fin haut de gamme","lien_produit":"https://mobile.free.fr/shop/products/apple/iphone-air","couleurs_disponibles":"Bleu ciel","libelle_court":"iPhone Air – 256Go – Bleu ciel","bonus_reprise":0},{"libelle_complet":"Google - Pixel 10 - 128Go - Noir","gamme":"5 Gamme ULTRA PREMIUM","marque":"Google","modele":"Pixel 10","capacite":"128Go","couleur":"Noir","variante":"128Go – Noir","prix_comptant":699,"premier_paiement":1,"premier_paiement_commande":201,"mensualite_tel":24.99,"prix_comptant_abonne":699,"premier_paiement_abonne":1,"premier_paiement_commande_abonne":101,"mensualite_tel_abonne":24.99,"option_achat_abonne":98,"odr_abonne":100,"remise_immediate_abonne":100,"debut_odr_abonne":"2026-06-04","fin_odr_abonne":"2026-06-23","assurance_mois":14.99,"tel_plus_assu":39.98,"option_achat":98,"odr":200,"remise_immediate":0,"debut_odr":"2026-06-04","fin_odr":"2026-06-23","reparation_max":230,"piece":"Écran OLED Pixel","lien_produit":"https://mobile.free.fr/shop/products/google/pixel-10","couleurs_disponibles":"Noir","libelle_court":"Pixel 10 – 128Go – Noir","bonus_reprise":0},{"libelle_complet":"Xiaomi - 15T Pro - 512Go - Noir","gamme":"5 Gamme ULTRA PREMIUM","marque":"Xiaomi","modele":"15T Pro","capacite":"512Go","couleur":"Noir","variante":"512Go – Noir","prix_comptant":899,"premier_paiement":199,"premier_paiement_commande":null,"mensualite_tel":24.99,"prix_comptant_abonne":899,"premier_paiement_abonne":99,"premier_paiement_commande_abonne":null,"mensualite_tel_abonne":28.99,"option_achat_abonne":104,"odr_abonne":0,"remise_immediate_abonne":0,"debut_odr_abonne":null,"fin_odr_abonne":null,"assurance_mois":14.99,"tel_plus_assu":39.98,"option_achat":100,"odr":0,"remise_immediate":0,"debut_odr":null,"fin_odr":null,"reparation_max":265,"piece":"Écran Xiaomi haut de gamme","lien_produit":"https://mobile.free.fr/shop/products/xiaomi/15t-pro","couleurs_disponibles":"Noir","libelle_court":"15T Pro – 512Go – Noir","bonus_reprise":150},{"libelle_complet":"Xiaomi - 17 - 512Go - Noir","gamme":"5 Gamme ULTRA PREMIUM","marque":"Xiaomi","modele":"17","capacite":"512Go","couleur":"Noir","variante":"512Go – Noir","prix_comptant":899,"premier_paiement":199,"premier_paiement_commande":299,"mensualite_tel":24.99,"prix_comptant_abonne":899,"premier_paiement_abonne":99,"premier_paiement_commande_abonne":149,"mensualite_tel_abonne":28.99,"option_achat_abonne":104,"odr_abonne":50,"remise_immediate_abonne":50,"debut_odr_abonne":"2026-05-07","fin_odr_abonne":"2026-06-09","assurance_mois":16.99,"tel_plus_assu":41.98,"option_achat":100,"odr":100,"remise_immediate":0,"debut_odr":"2026-05-07","fin_odr":"2026-06-09","reparation_max":265,"piece":"Écran Xiaomi haut de gamme","lien_produit":"https://mobile.free.fr/shop/products/xiaomi/17","couleurs_disponibles":"Noir","libelle_court":"17 – 512Go – Noir","bonus_reprise":0},{"libelle_complet":"Samsung - Galaxy S25 - 128Go - Bleu clair","gamme":"5 Gamme ULTRA PREMIUM","marque":"Samsung","modele":"Galaxy S25","capacite":"128Go","couleur":"Bleu clair","variante":"128Go – Bleu clair","prix_comptant":899,"premier_paiement":199,"premier_paiement_commande":null,"mensualite_tel":24.99,"prix_comptant_abonne":899,"premier_paiement_abonne":99,"premier_paiement_commande_abonne":null,"mensualite_tel_abonne":28.99,"option_achat_abonne":104,"odr_abonne":0,"remise_immediate_abonne":0,"debut_odr_abonne":null,"fin_odr_abonne":null,"assurance_mois":14.99,"tel_plus_assu":39.98,"option_achat":100,"odr":0,"remise_immediate":0,"debut_odr":null,"fin_odr":null,"reparation_max":230,"piece":"Écran AMOLED haut de gamme","lien_produit":"https://mobile.free.fr/shop/products/samsung/galaxy-s25","couleurs_disponibles":"Bleu clair","libelle_court":"Galaxy S25 – 128Go – Bleu clair","bonus_reprise":0},{"libelle_complet":"Samsung - Galaxy S26 + - 256Go - Noir","gamme":"5 Gamme ULTRA PREMIUM","marque":"Samsung","modele":"Galaxy S26 +","capacite":"256Go","couleur":"Noir","variante":"256Go – Noir","prix_comptant":1269,"premier_paiement":569,"premier_paiement_commande":null,"mensualite_tel":24.99,"prix_comptant_abonne":1269,"premier_paiement_abonne":449,"premier_paiement_commande_abonne":null,"mensualite_tel_abonne":29.99,"option_achat_abonne":100,"odr_abonne":0,"remise_immediate_abonne":0,"debut_odr_abonne":null,"fin_odr_abonne":null,"assurance_mois":16.99,"tel_plus_assu":41.98,"option_achat":100,"odr":0,"remise_immediate":0,"debut_odr":null,"fin_odr":null,"reparation_max":285,"piece":"Écran AMOLED haut de gamme","lien_produit":"https://mobile.free.fr/shop/products/samsung/galaxy-s26+","couleurs_disponibles":"Noir","libelle_court":"Galaxy S26 + – 256Go – Noir","bonus_reprise":200},{"libelle_complet":"Samsung - Galaxy S26 Ultra - 256Go - Noir","gamme":"5 Gamme ULTRA PREMIUM","marque":"Samsung","modele":"Galaxy S26 Ultra","capacite":"256Go","couleur":"Noir","variante":"256Go – Noir","prix_comptant":1269,"premier_paiement":569,"premier_paiement_commande":769,"mensualite_tel":24.99,"prix_comptant_abonne":1269,"premier_paiement_abonne":449,"premier_paiement_commande_abonne":649,"mensualite_tel_abonne":29.99,"option_achat_abonne":100,"odr_abonne":200,"remise_immediate_abonne":0,"debut_odr_abonne":"2026-05-22","fin_odr_abonne":"2026-06-23","assurance_mois":19.99,"tel_plus_assu":44.98,"option_achat":100,"odr":200,"remise_immediate":0,"debut_odr":"2026-05-22","fin_odr":"2026-06-23","reparation_max":375,"piece":"Écran AMOLED premium","lien_produit":"https://mobile.free.fr/shop/products/samsung/galaxy-s26","couleurs_disponibles":"Noir","libelle_court":"Galaxy S26 Ultra – 256Go – Noir","bonus_reprise":200},{"libelle_complet":"Samsung - Galaxy S26 - 256Go - Violet","gamme":"5 Gamme ULTRA PREMIUM","marque":"Samsung","modele":"Galaxy S26","capacite":"256Go","couleur":"Violet","variante":"256Go – Violet","prix_comptant":849,"premier_paiement":149,"premier_paiement_commande":299,"mensualite_tel":24.99,"prix_comptant_abonne":849,"premier_paiement_abonne":49,"premier_paiement_commande_abonne":199,"mensualite_tel_abonne":28.99,"option_achat_abonne":104,"odr_abonne":150,"remise_immediate_abonne":0,"debut_odr_abonne":"2026-05-22","fin_odr_abonne":"2026-06-23","assurance_mois":14.99,"tel_plus_assu":39.98,"option_achat":100,"odr":150,"remise_immediate":0,"debut_odr":"2026-05-22","fin_odr":"2026-06-23","reparation_max":260,"piece":"Écran AMOLED haut de gamme","lien_produit":"https://mobile.free.fr/shop/products/samsung/galaxy-s26","couleurs_disponibles":"Violet","libelle_court":"Galaxy S26 – 256Go – Violet","bonus_reprise":200},{"libelle_complet":"Samsung - Galaxy Z Flip7 - 256Go - Bleu nuit","gamme":"5 Gamme ULTRA PREMIUM","marque":"Samsung","modele":"Galaxy Z Flip7","capacite":"256Go","couleur":"Bleu nuit","variante":"256Go – Bleu nuit","prix_comptant":1199,"premier_paiement":499,"premier_paiement_commande":null,"mensualite_tel":24.99,"prix_comptant_abonne":1199,"premier_paiement_abonne":379,"premier_paiement_commande_abonne":null,"mensualite_tel_abonne":29.99,"option_achat_abonne":100,"odr_abonne":0,"remise_immediate_abonne":0,"debut_odr_abonne":null,"fin_odr_abonne":null,"assurance_mois":16.99,"tel_plus_assu":41.98,"option_achat":100,"odr":0,"remise_immediate":0,"debut_odr":null,"fin_odr":null,"reparation_max":500,"piece":"Écran pliable interne","lien_produit":"https://mobile.free.fr/shop/products/samsung/galaxy-z-flip7","couleurs_disponibles":"Bleu nuit","libelle_court":"Galaxy Z Flip7 – 256Go – Bleu nuit","bonus_reprise":0},{"libelle_complet":"Apple - iPhone 17 Pro Max - 256Go - Bleu intense  / Orenge cosmique","gamme":"5 Gamme ULTRA PREMIUM","marque":"Apple","modele":"iPhone 17 Pro Max","capacite":"256Go","couleur":"Bleu intense  / Orenge cosmique","variante":"256Go – Bleu intense +1","prix_comptant":1459,"premier_paiement":759,"premier_paiement_commande":809,"mensualite_tel":24.99,"prix_comptant_abonne":1459,"premier_paiement_abonne":639,"premier_paiement_commande_abonne":689,"mensualite_tel_abonne":29.99,"option_achat_abonne":100,"odr_abonne":50,"remise_immediate_abonne":0,"debut_odr_abonne":"2026-05-28","fin_odr_abonne":"2026-06-23","assurance_mois":19.99,"tel_plus_assu":44.98,"option_achat":100,"odr":50,"remise_immediate":0,"debut_odr":"2026-05-28","fin_odr":"2026-06-23","reparation_max":420,"piece":"Écran OLED grand format / Pro Max","lien_produit":"https://mobile.free.fr/shop/products/apple/iphone-17-pro-max","couleurs_disponibles":"Bleu intense, Orenge cosmique","libelle_court":"iPhone 17 Pro Max – 256Go – Bleu intens…","bonus_reprise":0},{"libelle_complet":"Apple - iPhone 17 Pro Max - 512Go - Orange","gamme":"5 Gamme ULTRA PREMIUM","marque":"Apple","modele":"iPhone 17 Pro Max","capacite":"512Go","couleur":"Orange","variante":"512Go – Orange","prix_comptant":1709,"premier_paiement":1009,"premier_paiement_commande":1059,"mensualite_tel":24.99,"prix_comptant_abonne":1709,"premier_paiement_abonne":889,"premier_paiement_commande_abonne":939,"mensualite_tel_abonne":29.99,"option_achat_abonne":100,"odr_abonne":50,"remise_immediate_abonne":0,"debut_odr_abonne":"2026-05-28","fin_odr_abonne":"2026-06-23","assurance_mois":19.99,"tel_plus_assu":44.98,"option_achat":100,"odr":50,"remise_immediate":0,"debut_odr":"2026-05-28","fin_odr":"2026-06-23","reparation_max":420,"piece":"Écran OLED grand format / Pro Max","lien_produit":"https://mobile.free.fr/shop/products/apple/iphone-17-pro-max","couleurs_disponibles":"Orange","libelle_court":"iPhone 17 Pro Max – 512Go – Orange","bonus_reprise":0},{"libelle_complet":"Apple - iPhone 17 Pro - 256Go - Bleu intense / Argent / Orenge cosmique","gamme":"5 Gamme ULTRA PREMIUM","marque":"Apple","modele":"iPhone 17 Pro","capacite":"256Go","couleur":"Bleu intense / Argent / Orenge cosmique","variante":"256Go – Bleu intense +2","prix_comptant":1309,"premier_paiement":609,"premier_paiement_commande":659,"mensualite_tel":24.99,"prix_comptant_abonne":1309,"premier_paiement_abonne":489,"premier_paiement_commande_abonne":539,"mensualite_tel_abonne":29.99,"option_achat_abonne":100,"odr_abonne":50,"remise_immediate_abonne":0,"debut_odr_abonne":"2026-05-28","fin_odr_abonne":"2026-06-23","assurance_mois":19.99,"tel_plus_assu":44.98,"option_achat":100,"odr":50,"remise_immediate":0,"debut_odr":"2026-05-28","fin_odr":"2026-06-23","reparation_max":390,"piece":"Écran OLED Pro","lien_produit":"https://mobile.free.fr/shop/products/apple/iphone-17-pro","couleurs_disponibles":"Bleu intense, Argent, Orenge cosmique","libelle_court":"iPhone 17 Pro – 256Go – Bleu intense +2","bonus_reprise":0},{"libelle_complet":"Apple - iPhone 17 Pro - 512Go - Orange","gamme":"5 Gamme ULTRA PREMIUM","marque":"Apple","modele":"iPhone 17 Pro","capacite":"512Go","couleur":"Orange","variante":"512Go – Orange","prix_comptant":1559,"premier_paiement":859,"premier_paiement_commande":909,"mensualite_tel":24.99,"prix_comptant_abonne":1559,"premier_paiement_abonne":739,"premier_paiement_commande_abonne":789,"mensualite_tel_abonne":29.99,"option_achat_abonne":100,"odr_abonne":50,"remise_immediate_abonne":0,"debut_odr_abonne":"2026-05-28","fin_odr_abonne":"2026-06-23","assurance_mois":19.99,"tel_plus_assu":44.98,"option_achat":100,"odr":50,"remise_immediate":0,"debut_odr":"2026-05-28","fin_odr":"2026-06-23","reparation_max":390,"piece":"Écran OLED Pro","lien_produit":"https://mobile.free.fr/shop/products/apple/iphone-17-pro","couleurs_disponibles":"Orange","libelle_court":"iPhone 17 Pro – 512Go – Orange","bonus_reprise":0},{"libelle_complet":"Apple - iPhone Air - 512Go - Bleu","gamme":"5 Gamme ULTRA PREMIUM","marque":"Apple","modele":"iPhone Air","capacite":"512Go","couleur":"Bleu","variante":"512Go – Bleu","prix_comptant":1209,"premier_paiement":509,"premier_paiement_commande":559,"mensualite_tel":24.99,"prix_comptant_abonne":1199,"premier_paiement_abonne":379,"premier_paiement_commande_abonne":429,"mensualite_tel_abonne":29.99,"option_achat_abonne":100,"odr_abonne":50,"remise_immediate_abonne":110,"debut_odr_abonne":"2026-05-28","fin_odr_abonne":"2026-06-23","assurance_mois":16.99,"tel_plus_assu":41.98,"option_achat":100,"odr":50,"remise_immediate":100,"debut_odr":"2026-05-28","fin_odr":"2026-06-23","reparation_max":380,"piece":"Écran OLED fin haut de gamme","lien_produit":"https://mobile.free.fr/shop/products/apple/iphone-air","couleurs_disponibles":"Bleu","libelle_court":"iPhone Air – 512Go – Bleu","bonus_reprise":0},{"libelle_complet":"Xiaomi - 17T Pro - 512Go - Bleu","gamme":"5 Gamme ULTRA PREMIUM","marque":"Xiaomi","modele":"17T Pro","capacite":"512Go","couleur":"Bleu","variante":"512Go – Bleu","prix_comptant":799,"premier_paiement":99,"premier_paiement_commande":219,"mensualite_tel":24.99,"prix_comptant_abonne":799,"premier_paiement_abonne":1,"premier_paiement_commande_abonne":101,"mensualite_tel_abonne":28.99,"option_achat_abonne":102,"odr_abonne":100,"remise_immediate_abonne":100,"debut_odr_abonne":"2026-05-28","fin_odr_abonne":"2026-06-23","assurance_mois":14.99,"tel_plus_assu":39.98,"option_achat":100,"odr":120,"remise_immediate":80,"debut_odr":"2026-05-28","fin_odr":"2026-06-23","reparation_max":265,"piece":"Écran Xiaomi haut de gamme","lien_produit":"https://mobile.free.fr/shop/products/xiaomi/17t-pro","couleurs_disponibles":"Bleu","libelle_court":"17T Pro – 512Go – Bleu","bonus_reprise":100}],"forfaits":[{"nom":"9,99 € – Série Free / Forfait Free","prix":9.99},{"nom":"15,99 € – Forfait Free","prix":15.99},{"nom":"19,99 € – Forfait Free / Forfait Free Max","prix":19.99},{"nom":"29,99 € – Forfait Free Max","prix":29.99}],"marques":["Apple","Certideal","Doro","Google","Honor","Motorola","Samsung","TCL","Xiaomi"],"modelesParMarque":{"Apple":["iPhone 16e – 128Go – Noir","iPhone 15 – 128Go – Noir +2","iPhone 17e – 256Go – Noir +1","iPhone 16 – 128Go – Noir +1","iPhone 16 Plus – 128Go – Noir","iPhone 17 – 256Go – Noir +3","iPhone Air – 256Go – Bleu ciel","iPhone 17 Pro Max – 256Go – Bleu intens…","iPhone 17 Pro Max – 512Go – Orange","iPhone 17 Pro – 256Go – Bleu intense +2","iPhone 17 Pro – 512Go – Orange","iPhone Air – 512Go – Bleu"],"Certideal":["iPhone 12 reconditionné Grade A – 64Go …","iPhone 12 Pro reconditionné Grade A – 1…","iPhone 13 reconditionné Grade A – 128Go…","iPhone 14  Reconditionné Grade A – 128G…","iPhone 13 Pro reconditionné Grade A – 1…","iPhone 13 Pro Max reconditionné Grade A…","iPhone 14  Pro Max Reconditionné Grade …","iPhone 14  Pro Reconditionné Grade A – …"],"Doro":["Leva L30 – 0Go – Graphite"],"Google":["Pack Pixel 10A & Pixel Buds 2a – 128Go …","Pixel 10 – 128Go – Noir"],"Honor":["X5C Plus – 64Go – Noir","400 Smart 5G – 128Go – Noir","600 Lite – 256Go – Noir +1","Pack Magic8Lite & Choice Earbuds X8i – …","400 5G – 512Go – Noir","600 5G – 256Go – Noir"],"Motorola":["Razr 60 – 256Go – Bleu marine"],"Samsung":["Galaxy A16 4G – 128Go – Bleu nuit","Galaxy A17 5G – 128Go – Noir","Galaxy A26 5G – 128Go – Noir","Galaxy A37 5G – 128Go – Graphite","Galaxy A57 5G – 128Go – Lavande","Pack Galaxy A57 5G & Fit3 – 128Go – Bleu","Galaxy S25 FE – 128Go – Noir +1","Galaxy S25 – 128Go – Bleu clair","Galaxy S26 + – 256Go – Noir","Galaxy S26 Ultra – 256Go – Noir","Galaxy S26 – 256Go – Violet","Galaxy Z Flip7 – 256Go – Bleu nuit"],"TCL":["60R 5G – 128Go – Noir","5041 2025 – 0Go – Noir"],"Xiaomi":["Redmi A7 Pro – 64Go – Noir","Redmi 15C 4G – 128Go – Vert","Pack Redmi 15C 5G 256Go Noir & Redmi Bu…","Redmi Note 15 5G – 256Go – Noir","Pack Redmi Note 15 Pro 5G & Band10 – 25…","Redmi Note 15 Pro 5G – 256Go – Bleu +1","Redmi Note 15 Pro + 5G – 256Go – Noir","14T – 256Go – Noir","15T – 256Go – Gris","17T – 256Go – Noir","15T Pro – 512Go – Noir","17 – 512Go – Noir","17T Pro – 512Go – Bleu"]},"sources":[{"nom":"PanneRésolue","usage":"Fourchettes 2026 iPhone, Samsung Galaxy, batteries et autres réparations","lien":"https://xn--pannersolue-gbb.fr/budget/reparation-smartphone/","note":"Source de cadrage pour les moyennes par famille."},{"nom":"Geniuslab Xiaomi","usage":"Fourchettes écran Xiaomi / Redmi","lien":"https://www.geniuslab.fr/ecran-fissure-ou-casse-sur-xiaomi-reparation-ou-remplacement-quel-prix-prevoir-redmi-mi-poco/","note":"Utilisé pour différencier Redmi, Redmi Note et Xiaomi haut de gamme."},{"nom":"Geniuslab smartphone","usage":"Fourchettes génériques entrée / milieu / haut de gamme / OLED premium","lien":"https://www.geniuslab.fr/ecran-fissure-ou-casse-reparation-ou-remplacement-quel-prix-prevoir/","note":"Complète les marques moins documentées."},{"nom":"Samsung Support","usage":"Tarifs indicatifs écran Galaxy S/Z","lien":"https://www.samsung.com/us/support/repair/pricing/","note":"Tarifs officiels US utilisés comme repère relatif pour Samsung."},{"nom":"Bliink","usage":"Moyenne atelier QualiRépar et hauts de gamme","lien":"https://bliink.fr/blog/ecran-telephone-casse-prix-bonus-reparation","note":"Confirme le cadrage 80-200 € et >400 €."},{"nom":"Fone Zone","usage":"Tarifs écran iPhone par modèle","lien":"https://fonezone.tech/blog/prix-reparation-ecran-iphone-2026.html","note":"Repère pour iPhone 12 à 16 chez réparateur."},{"nom":"Méthode","usage":"Les valeurs sont des estimations de discours, pas des devis SAV","lien":null,"note":"La pièce retenue est l'écran, sauf logique pliable où l'écran interne est mis en avant."}],"dateSource":"04/06/2026","dateMiseAJour":"05/06/2026"};
+
+const $ = (sel, root=document) => root.querySelector(sel);
+const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+
+const fmtEUR = n => {
+  if (n === null || n === undefined || isNaN(n)) return '\u2013';
+  return n.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' \u20AC';
+};
+const fmtEURInt = n => {
+  if (n === null || n === undefined || isNaN(n)) return '\u2013';
+  return Math.round(n).toLocaleString('fr-FR') + ' \u20AC';
+};
+const fmtEURSignedInt = n => {
+  if (n === null || n === undefined || isNaN(n)) return '\u2013';
+  const sign = n > 0 ? '\u2212' : n < 0 ? '+' : '';
+  return sign + Math.round(Math.abs(n)).toLocaleString('fr-FR') + ' \u20AC';
+};
+const fmtPct = n => {
+  if (n === null || n === undefined || isNaN(n)) return '\u2013';
+  return Math.round(n * 100) + '%';
+};
+
+const findProduct = (marque, libelleCourt) =>
+  DATA.products.find(p => p.marque === marque && p.libelle_court === libelleCourt);
+const findForfait = nom => DATA.forfaits.find(f => f.nom === nom);
+let customerType = 'prospect';
+
+const activeOffer = p => {
+  return {
+    prix_comptant: p.prix_comptant,
+    premier_paiement: p.premier_paiement,
+    premier_paiement_commande: p.premier_paiement_commande,
+    mensualite_tel: p.mensualite_tel,
+    assurance_mois: p.assurance_mois || 0,
+    tel_plus_assu: cleanNumberForCalc(p.mensualite_tel) + (p.assurance_mois || 0),
+    option_achat: p.option_achat,
+    odr: p.odr || 0,
+    remise_immediate: p.remise_immediate || 0,
+    debut_odr: p.debut_odr,
+    fin_odr: p.fin_odr,
+  };
+};
+
+function cleanNumberForCalc(value) {
+  return value === null || value === undefined || isNaN(value) ? 0 : value;
+}
+
+const premierPaiementTerminal = (p, offer=activeOffer(p)) => {
+  if (!p || !offer) return 0;
+  if (offer.premier_paiement_commande !== null && offer.premier_paiement_commande !== undefined && !isNaN(offer.premier_paiement_commande)) {
+    return offer.premier_paiement_commande || 0;
+  }
+  if (offer.premier_paiement === null || offer.premier_paiement === undefined || isNaN(offer.premier_paiement)) {
+    return offer.prix_comptant || 0;
+  }
+  return (offer.premier_paiement || 0) + (offer.odr || 0);
+};
+
+function computeOfferState(p, forfait) {
+  const offer = activeOffer(p);
+  const prixForfait = forfait ? forfait.prix : 0;
+  const isAbonne = customerType === 'abonne';
+  const forfaitDansTotal = !isAbonne;
+  const premierTerminal = premierPaiementTerminal(p, offer);
+  const mensualiteTel = cleanNumberForCalc(offer.mensualite_tel);
+  const assuranceMois = cleanNumberForCalc(offer.assurance_mois);
+  const telPlusAssu = mensualiteTel + assuranceMois;
+  const premier = premierTerminal + (forfaitDansTotal ? prixForfait : 0);
+  const mensTotale = telPlusAssu + (forfaitDansTotal ? prixForfait : 0);
+  const totalAides = (offer.odr || 0) + (offer.remise_immediate || 0);
+  return { offer, prixForfait, isAbonne, forfaitDansTotal, premierTerminal, mensualiteTel, assuranceMois, telPlusAssu, premier, mensTotale, totalAides };
+}
+
+const computeValidite = finOdrIso => {
+  if (!finOdrIso) return { texte: '\u2013', alert: false, expired: false };
+  const fin = new Date(finOdrIso + 'T23:59:59');
+  const diffJ = Math.ceil((fin - new Date()) / 86400000);
+  if (diffJ < 0) return { texte: 'Expirée', alert: false, expired: true };
+  if (diffJ <= 7) return { texte: 'Alerte · ' + diffJ + ' j', alert: true, expired: false };
+  const jj = String(fin.getDate()).padStart(2, '0');
+  const mm = String(fin.getMonth() + 1).padStart(2, '0');
+  return { texte: 'jusqu\u2019au ' + jj + '/' + mm, alert: false, expired: false };
+};
+
+const computeAlerteSource = () => {
+  const parts = DATA.dateSource.split('/');
+  const sourceDate = new Date(parts[2], parts[1]-1, parts[0]);
+  const diffJ = Math.floor((new Date() - sourceDate) / 86400000);
+  if (diffJ > 7) return { alert: true, texte: 'Tarifs à vérifier' };
+  return { alert: false, texte: 'Tarifs à jour' };
+};
+
+const computeAlerteProduit = p => {
+  const offer = p ? activeOffer(p) : null;
+  if (!offer || !offer.fin_odr || ((offer.odr || 0) + (offer.remise_immediate || 0)) <= 0) {
+    return computeAlerteSource();
+  }
+  const fin = new Date(offer.fin_odr + 'T23:59:59');
+  const diffJ = Math.ceil((fin - new Date()) / 86400000);
+  if (diffJ < 0) return { alert: true, texte: 'ODR expirée' };
+  if (diffJ === 0) return { alert: true, texte: 'ODR dernier jour' };
+  return { alert: diffJ <= 7, texte: 'ODR valide · ' + diffJ + ' jours' };
+};
+
+function setAlertBar(state) {
+  const bar = $('#alertBar');
+  bar.textContent = state.texte;
+  bar.classList.toggle('alert', state.alert);
+}
+
+const selectForfait = $('#forfait');
+const budgetForfaitSelect = $('#budgetForfait');
+DATA.forfaits.forEach(f => {
+  const o = document.createElement('option');
+  o.value = f.nom; o.textContent = f.nom;
+  selectForfait.appendChild(o);
+  const budgetOption = document.createElement('option');
+  budgetOption.value = f.nom; budgetOption.textContent = f.nom;
+  budgetForfaitSelect.appendChild(budgetOption);
+});
+
+const budgetPremierInput = $('#budgetPremier');
+const budgetMensuelInput = $('#budgetMensuel');
+const simulatorBody = $('#simulatorBody');
+const profileButtons = $$('.profile-option');
+profileButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    customerType = btn.dataset.profile === 'abonne' ? 'abonne' : 'prospect';
+    profileButtons.forEach(b => b.classList.toggle('active', b === btn));
+    document.body.classList.remove('needs-profile', 'mode-prospect', 'mode-abonne');
+    document.body.classList.add(customerType === 'abonne' ? 'mode-abonne' : 'mode-prospect');
+    render();
+    renderAideVente();
+  });
+});
+document.body.classList.remove('needs-profile', 'mode-abonne');
+document.body.classList.add('mode-prospect');
+
+const selectMarque = $('#marque');
+DATA.marques.forEach(m => {
+  const o = document.createElement('option');
+  o.value = m; o.textContent = m;
+  selectMarque.appendChild(o);
+});
+
+const selectModele = $('#modele');
+function refreshModeles(selectEl, marque, defaultVal) {
+  selectEl.innerHTML = '';
+  const list = DATA.modelesParMarque[marque] || [];
+  list.forEach(m => {
+    const o = document.createElement('option');
+    o.value = m; o.textContent = m;
+    selectEl.appendChild(o);
+  });
+  if (defaultVal && list.includes(defaultVal)) selectEl.value = defaultVal;
+}
+
+selectMarque.value = DATA.marques.includes('Samsung') ? 'Samsung' : DATA.marques[0];
+refreshModeles(selectModele, selectMarque.value, 'Galaxy S26 Ultra \u2013 256Go \u2013 Noir');
+
+selectMarque.addEventListener('change', () => {
+  refreshModeles(selectModele, selectMarque.value);
+  render();
+});
+selectModele.addEventListener('change', render);
+selectForfait.addEventListener('change', () => {
+  budgetForfaitSelect.value = selectForfait.value;
+  render();
+  renderAideVente();
+});
+
+budgetForfaitSelect.addEventListener('change', () => {
+  selectForfait.value = budgetForfaitSelect.value;
+  render();
+  renderAideVente();
+});
+budgetPremierInput.addEventListener('input', renderAideVente);
+budgetMensuelInput.addEventListener('input', renderAideVente);
+
+function render() {
+  const marque = selectMarque.value;
+  const lib = selectModele.value;
+  const forfait = findForfait(selectForfait.value);
+  const p = findProduct(marque, lib);
+  if (!p) return;
+  const state = computeOfferState(p, forfait);
+  const { offer, prixForfait, isAbonne, mensualiteTel, assuranceMois, telPlusAssu, premier, mensTotale, totalAides } = state;
+  const odr = offer.odr || 0;
+  const remise = offer.remise_immediate || 0;
+  const bonus = p.bonus_reprise || 0;
+  const validite = computeValidite(offer.fin_odr);
+  const assAn = assuranceMois * 12;
+  const assApres = Math.max(0, assAn - totalAides);
+  const assNetMois = assApres / 12;
+  const repMax = p.reparation_max || 0;
+  const moisOfferts = assuranceMois > 0 ? Math.round(totalAides / assuranceMois) : 0;
+  const moisRent = assuranceMois > 0 ? Math.max(1, Math.round(repMax / assuranceMois)) : 0;
+  const pctPrix = offer.prix_comptant > 0 ? assAn / offer.prix_comptant : null;
+  const pctApresPrix = offer.prix_comptant > 0 ? assApres / offer.prix_comptant : null;
+
+  setAlertBar(computeAlerteProduit(p));
+  $('#couleursDispo').textContent = p.couleurs_disponibles ? 'Coloris : ' + p.couleurs_disponibles : '';
+  $('#forfaitLabel').innerHTML = isAbonne ? 'Forfait actuel <span class="field-badge">déjà actif</span>' : 'Forfait';
+  $('#forfaitGroup').classList.toggle('neutralized', isAbonne);
+
+  renderFinanceRecap({ p, forfait, ...state });
+  renderAidesTable({ p, odr, remise, bonus, totalAides, assuranceMois, validite, moisOfferts });
+  renderInsurancePitch({ p, offer, assAn, assApres, assNetMois, pctPrix, pctApresPrix, totalAides, moisOfferts, repMax, moisRent });
+}
+
+function badge(text, cls='') {
+  return '<span class="line-badge ' + cls + '">' + text + '</span>';
+}
+
+function recapLine(label, value, cls='', extra='') {
+  return '<div class="recap-line ' + cls + '"><div><span>' + label + '</span>' + extra + '</div><strong>' + value + '</strong></div>';
+}
+
+function renderFinanceRecap(ctx) {
+  const isAbonne = ctx.isAbonne;
+  const prixApresOdr = Math.max(0, (ctx.offer.prix_comptant || 0) - (ctx.offer.odr || 0));
+  $('#recapProfile').textContent = 'CrossFLX · ' + (isAbonne ? 'Déjà abonné' : 'Prospect');
+  $('#recapModel').textContent = ctx.p.libelle_court;
+
+  let html = '';
+  html += recapLine('À payer aujourd’hui', fmtEUR(ctx.premier), 'highlight');
+  html += recapLine('Mensualité téléphone', fmtEUR(ctx.mensualiteTel));
+  html += recapLine('Assurance mobile', fmtEUR(ctx.assuranceMois), 'accent', badge('recommandé', 'success'));
+  if (isAbonne) {
+    html += recapLine('Forfait déjà détenu', fmtEUR(ctx.prixForfait), 'muted', badge('inchangé', 'muted'));
+  } else {
+    html += recapLine('Forfait', fmtEUR(ctx.prixForfait));
+  }
+  html += recapLine(isAbonne ? 'Total ajouté / mois' : 'Total / mois', fmtEUR(ctx.mensTotale), 'synthesis');
+  if (isAbonne) {
+    html += recapLine('Total avec forfait / mois', fmtEUR(ctx.mensTotale + ctx.prixForfait), 'invoice-context', badge('facture totale', 'muted'));
+  }
+  html += recapLine('Prix comptant', fmtEURInt(ctx.offer.prix_comptant), 'cash-muted');
+  html += recapLine('Prix comptant après ODR', fmtEURInt(prixApresOdr), 'success');
+  html += recapLine('Option d’achat finale', fmtEURInt(ctx.offer.option_achat));
+  $('#recapLines').innerHTML = html;
+}
+
+function renderAidesTable({ p, odr, remise, bonus, totalAides, assuranceMois, validite, moisOfferts }) {
+  const validiteText = validite && validite.texte !== '\u2013' ? '<i class="ti ti-calendar"></i> ' + validite.texte : '\u2013';
+  const odrMois = odr > 0 && assuranceMois > 0 ? '\u2248 ' + Math.round(odr / assuranceMois) + ' mois offerts' : '\u2013';
+  const remiseMode = remise > 0 && assuranceMois > 0 ? '\u2248 ' + Math.round(remise / assuranceMois) + ' mois offerts' : '\u2013';
+  const rows = [
+    ['ODR ' + p.marque, odr > 0 ? fmtEURSignedInt(odr) : '\u2013', odrMois, odr > 0 ? validiteText : '\u2013', odr > 0 ? 'danger' : 'empty'],
+    ['Remise immédiate', remise > 0 ? fmtEURSignedInt(remise) : '\u2013', remiseMode, remise > 0 ? validiteText : '\u2013', remise > 0 ? 'danger' : 'empty'],
+    ['Bonus reprise', bonus > 0 ? fmtEURSignedInt(bonus) : '\u2013', bonus > 0 ? badge('À annoncer séparément', 'warning') : '\u2013', bonus > 0 ? '<span class="muted-note">hors calcul assurance</span>' : '\u2013', bonus > 0 ? 'bonus' : 'empty'],
+  ];
+  let html = '<div class="aides-grid aides-grid-head"><span>Source</span><span>Montant</span><span>Modalité</span><span>Validité</span></div>';
+  html += rows.map(r => '<div class="aides-grid aides-grid-row ' + r[4] + '"><span>' + r[0] + '</span><strong>' + r[1] + '</strong><span>' + r[2] + '</span><span>' + r[3] + '</span></div>').join('');
+  html += '<div class="aides-total"><div><strong>Total aides</strong><span>' + (moisOfferts > 0 ? '\u2248 ' + moisOfferts + ' mois offerts' : 'aucune aide assurance') + '</span></div><strong>' + (totalAides > 0 ? fmtEURSignedInt(totalAides) : '\u2013') + '</strong></div>';
+  $('#aidesContainer').innerHTML = html;
+}
+
+function renderInsurancePitch({ p, offer, assAn, assApres, assNetMois, pctPrix, pctApresPrix, totalAides, moisOfferts, repMax, moisRent }) {
+  $('#pitchRepair').textContent = repMax > 0 ? fmtEURInt(repMax) : '\u2013';
+  $('#pitchCostReal').textContent = fmtEUR(assNetMois) + '/mois';
+  $('#pitchBreakEven').textContent = '1 incident';
+  $('#yearlyGross').textContent = fmtEUR(assAn);
+  $('#yearlyGrossPct').textContent = pctPrix === null ? '\u2013' : fmtPct(pctPrix) + ' du téléphone';
+  $('#yearlyAides').textContent = totalAides > 0 ? fmtEURSignedInt(totalAides) : '\u2013';
+  $('#yearlyAidesSub').textContent = moisOfferts > 0 ? moisOfferts + ' mois offerts' : 'aucune aide';
+  $('#yearlyNet').textContent = fmtEUR(assApres);
+  $('#yearlyNetSub').textContent = 'soit ' + fmtEUR(assNetMois) + '/mois · ' + (pctApresPrix === null ? '\u2013' : fmtPct(pctApresPrix));
+}
+
+function renderAideRow(label, montant, assMois, validite) {
+  let html = '<div class="aide-row">';
+  html += '<div class="label">' + label + '</div>';
+  if (montant > 0) {
+    html += '<div class="montant">' + fmtEURSignedInt(montant) + '</div>';
+    const mois = assMois > 0 ? Math.round(montant / assMois) : 0;
+    html += '<div class="mois">sur ' + mois + ' mois</div>';
+    let cls = 'validite';
+    if (validite.alert) cls += ' alert';
+    if (validite.expired) cls += ' expired';
+    html += '<div class="' + cls + '">' + validite.texte + '</div>';
+  } else {
+    html += '<div class="montant empty">\u2013</div><div class="mois empty">\u2013</div><div class="validite empty">\u2013</div>';
+  }
+  html += '</div>';
+  return html;
+}
+
+function readBudget(input) {
+  const value = parseFloat(String(input.value || '').replace(',', '.'));
+  return Number.isFinite(value) && value > 0 ? value : null;
+}
+
+function budgetStatus(firstCost, monthlyCost, firstBudget, monthlyBudget) {
+  const checks = [];
+  if (firstBudget) checks.push({ cost: firstCost, budget: firstBudget });
+  if (monthlyBudget) checks.push({ cost: monthlyCost, budget: monthlyBudget });
+  if (!checks.length) return null;
+
+  const allInside = checks.every(x => x.cost <= x.budget);
+  const allClose = checks.every(x => x.cost <= x.budget * 1.15 + 5);
+  const allDefensible = checks.every(x => x.cost <= x.budget * 1.35 + 15);
+  if (allInside) return { key: 'ok', label: 'Dans budget', rank: 0 };
+  if (allClose) return { key: 'close', label: 'Proche', rank: 1 };
+  if (allDefensible) return { key: 'stretch', label: 'À défendre', rank: 2 };
+  return null;
+}
+
+function budgetScore(firstCost, monthlyCost, firstBudget, monthlyBudget, p) {
+  let score = 0;
+  if (firstBudget) score += Math.max(0, (firstCost - firstBudget) / firstBudget);
+  if (monthlyBudget) score += Math.max(0, (monthlyCost - monthlyBudget) / monthlyBudget);
+  score -= Math.min(0.12, ((p.odr || 0) + (p.remise_immediate || 0)) / 1000);
+  score -= p.bonus_reprise > 0 ? 0.03 : 0;
+  return score;
+}
+
+function renderAideVente() {
+  if (!customerType) return;
+  $('#aideProfileLabel').textContent = customerType === 'abonne' ? 'Déjà abonné' : 'Prospect';
+  const firstBudget = readBudget(budgetPremierInput);
+  const monthlyBudget = readBudget(budgetMensuelInput);
+  const forfait = findForfait(budgetForfaitSelect.value);
+  const prixForfait = forfait ? forfait.prix : 0;
+  const forfaitDansTotal = customerType === 'prospect';
+
+  if (!firstBudget && !monthlyBudget) {
+    $('#recommendSummary').textContent = 'Entre un budget pour lancer les recommandations.';
+    $('#recommendList').innerHTML = '<div class="glass recommend-empty">Renseigne au moins un budget : 1ᵉʳ paiement ou mensualité.</div>';
+    return;
+  }
+
+  const results = DATA.products
+    .map(p => {
+      const offer = activeOffer(p);
+      const firstCost = premierPaiementTerminal(p, offer) + (forfaitDansTotal ? prixForfait : 0);
+      const monthlyWithAssu = (offer.mensualite_tel || 0) + (offer.assurance_mois || 0) + (forfaitDansTotal ? prixForfait : 0);
+      const monthlyWithoutAssu = (offer.mensualite_tel || 0) + (forfaitDansTotal ? prixForfait : 0);
+      const status = budgetStatus(firstCost, monthlyWithAssu, firstBudget, monthlyBudget);
+      if (!status) return null;
+      return {
+        p,
+        firstCost,
+        monthlyWithAssu,
+        monthlyWithoutAssu,
+        status,
+        score: budgetScore(firstCost, monthlyWithAssu, firstBudget, monthlyBudget, p)
+      };
+    })
+    .filter(Boolean)
+    .sort((a, b) => a.status.rank - b.status.rank || a.score - b.score || a.monthlyWithAssu - b.monthlyWithAssu)
+    .slice(0, 12);
+
+  const budgetParts = [];
+  if (firstBudget) budgetParts.push('1ᵉʳ paiement ' + fmtEUR(firstBudget));
+  if (monthlyBudget) budgetParts.push('mensuel ' + fmtEUR(monthlyBudget));
+  $('#recommendSummary').textContent = results.length
+    ? results.length + ' propositions pour un budget ' + budgetParts.join(' · ')
+    : 'Aucune proposition proche. Essaie une enveloppe un peu plus large ou change de forfait.';
+
+  $('#recommendList').innerHTML = results.map((r, idx) => {
+    const offer = activeOffer(r.p);
+    const aides = (offer.odr || 0) + (offer.remise_immediate || 0);
+    const gapFirst = firstBudget ? r.firstCost - firstBudget : 0;
+    const gapMonthly = monthlyBudget ? r.monthlyWithAssu - monthlyBudget : 0;
+    const reason = r.status.key === 'ok'
+      ? 'Le modèle respecte le budget annoncé avec l’assurance incluse.'
+      : r.status.key === 'close'
+        ? 'L’écart reste léger : bon candidat si la personne accepte une petite marche pour protéger son téléphone.'
+        : 'Au-dessus du budget, mais défendable avec la valeur réparation, les aides ou le bonus reprise.';
+    const gaps = [];
+    if (firstBudget && gapFirst > 0) gaps.push('+' + fmtEUR(gapFirst) + ' au 1ᵉʳ paiement');
+    if (monthlyBudget && gapMonthly > 0) gaps.push('+' + fmtEUR(gapMonthly) + '/mois');
+    const gapText = gaps.length ? ' Écart : ' + gaps.join(' · ') + '.' : '';
+    const aideText = aides > 0 ? ' Aides : ' + fmtEUR(aides) + '.' : '';
+    const bonusText = r.p.bonus_reprise > 0 ? ' Bonus reprise : ' + fmtEUR(r.p.bonus_reprise) + '.' : '';
+
+    return '<div class="recommend-card ' + r.status.key + '">' +
+      '<div class="recommend-top">' +
+      '<div class="recommend-name">' + (idx + 1) + '. ' + r.p.libelle_court + '</div>' +
+      '<div class="recommend-badge ' + r.status.key + '">' + r.status.label + '</div>' +
+      '</div>' +
+      '<div class="recommend-stats">' +
+      '<div class="recommend-stat"><div class="lbl">1ᵉʳ paiement</div><div class="val">' + fmtEUR(r.firstCost) + '</div></div>' +
+      '<div class="recommend-stat"><div class="lbl">Avec assurance</div><div class="val">' + fmtEUR(r.monthlyWithAssu) + '</div></div>' +
+      '<div class="recommend-stat"><div class="lbl">Sans assurance</div><div class="val">' + fmtEUR(r.monthlyWithoutAssu) + '</div></div>' +
+      '</div>' +
+      '<div class="recommend-argument">1ᵉʳ paiement = terminal à la commande ' + fmtEUR(premierPaiementTerminal(r.p, offer)) + (forfaitDansTotal ? ' + 1er mois forfait ' + fmtEUR(prixForfait) : ' ; forfait déjà actif') + '. ' + reason + gapText + aideText + bonusText + '</div>' +
+      '<button class="recommend-action" data-marque="' + r.p.marque + '" data-modele="' + r.p.libelle_court + '">Utiliser dans le simulateur</button>' +
+      '</div>';
+  }).join('') || '<div class="glass recommend-empty">Aucun modèle dans la tolérance souple.</div>';
+
+  $$('.recommend-action').forEach(btn => {
+    btn.addEventListener('click', () => {
+      selectMarque.value = btn.dataset.marque;
+      refreshModeles(selectModele, selectMarque.value, btn.dataset.modele);
+      render();
+      $$('nav.tabs button').forEach(b => b.classList.remove('active'));
+      $('nav.tabs button[data-tab="simulateur"]').classList.add('active');
+      $$('.tab-panel').forEach(p => p.classList.remove('active'));
+      $('#tab-simulateur').classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+}
+
+$$('nav.tabs button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    $$('nav.tabs button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const tab = btn.dataset.tab;
+    $$('.tab-panel').forEach(p => p.classList.remove('active'));
+    $('#tab-' + tab).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+
+function renderAlerte() {
+  setAlertBar(computeAlerteSource());
+}
+
+selectForfait.value = (DATA.forfaits.find(f => f.prix === 19.99) || DATA.forfaits[0]).nom;
+budgetForfaitSelect.value = selectForfait.value;
+renderAlerte();
+render();
+renderAideVente();
+</script>
+</body>
+</html>
